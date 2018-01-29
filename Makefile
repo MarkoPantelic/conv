@@ -7,11 +7,16 @@ CFLAGS = -Wall
 LIB = -lm
 DBGFLAGS = -g
 OBJ = main.o marg.o nsconv.o tempconv.o chk_inval.o callconvf.o
-BUILD_DIR = build
+BUILD_DIR := build
 VPATH = marg
 INCL_DIR = includes
 
-$(TARGET): $(addprefix $(BUILD_DIR)/,$(OBJ))
+
+# create build directory if it doesn't exist
+$(shell mkdir -p $(BUILD_DIR))
+
+
+$(BUILD_DIR)/$(TARGET): $(addprefix $(BUILD_DIR)/,$(OBJ))
 	$(CC) $(LIB) -o $@ $^
 
 $(BUILD_DIR)/main.o: main.c
@@ -19,11 +24,11 @@ $(BUILD_DIR)/main.o: main.c
 
 $(BUILD_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) -I$(INCL_DIR) -o $@ -c $<
-
 	
 .PHONY: clean
+
 clean:
-	rm -f $(addprefix $(BUILD_DIR)/,$(OBJ)) $(TARGET)
+	rm -f $(addprefix $(BUILD_DIR)/,$(OBJ)) $(BUILD_DIR)/$(TARGET)
 
 
 #TODO

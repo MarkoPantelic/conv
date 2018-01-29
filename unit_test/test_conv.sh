@@ -6,7 +6,7 @@
 
 
 CONV="conv"
-CONV_EXE=".././conv"
+CONV_EXE="../build/conv"
 FAILED_COUNT=0
 
 
