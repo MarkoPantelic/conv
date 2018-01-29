@@ -1,0 +1,3 @@
+marg: when option argument operand is missing but specified with 1 flag in marg variable has_operand -> segmentation fault
+marg: when invalid inequal number of marg array for long_option or short_option with n_opt -> segmentation fault
+marg: when # char is passed segmentation fault because marg accepts no value for operand but operand is required

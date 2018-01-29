@@ -1,0 +1,55 @@
+Unit tests:
+===========
+
+* Create unit tests for all conversion functions
+
+
+Overall:
+========
+* protect conversion funcions from overflow when too large result is to be produced
+
+
+Insert conversions:
+===================
+
+* Numeral systems
+	- Gray code
+	- BSD code
+	- Duodecimal (12)
+	- Vigesimal (20)
+	- Trigesimal (30)
+	- Sexagesimal (60)
+	
+
+* Storage size
+	- b, kb, Mb, MB ...
+
+* Year
+	- Gregorian
+	- Julian
+	- Jewish
+	- Muslim ...
+
+* Currency
+	Create a program which fetches current currency relative values
+	from bank sites
+	- EUR
+	- DOL ($)
+	- POUND
+	- DIN ...
+
+* Misc
+	Barrel to liter
+	colorhex to color255
+
+
+
+Interface:
+==========
+
+	* Create interface method:
+		- conv bin 0100010 to dec
+		- conv 12.3 kelvin to celsius
+		- conv 13.02.2013 gregorian to muslim
+		- conv 20 EUR to DIN
+	
