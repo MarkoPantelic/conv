@@ -11,6 +11,7 @@
 #include "nsconv.h"
 #include "tempconv.h"
 #include "chk_inval.h"
+#include "measureconv.h"
 
 
 #define IN 0
@@ -171,6 +172,26 @@ void callconvf(char in, char out, char *val, char *precision, int verbose)
 			}
 			break;
 
+		case 'u':
+			if (out == 'g'){ // 'a' = avoirdupois system - default for testing
+				float gram_value = souncetog(val, 'a'); ptr_cval = &gram_value; type_flag = 'f'; suffix ="g";
+			}
+			else{
+				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+				exit(EXIT_FAILURE);
+			}
+			break;
+
+		case 'g':
+
+			if (out == 'u'){ // 'a' = avoirdupois system - default for testing
+				float ounce_value = sgtoounce(val, 'a'); ptr_cval = &ounce_value; type_flag = 'f'; suffix ="oz";
+			}
+			else{
+				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+				exit(EXIT_FAILURE);
+			}
+			break;
 		
 		default:
 			fprintf(stderr, "assert switch-case: invalid 'in' argument passed to call_convf()\n");
@@ -194,17 +215,25 @@ void callconvf(char in, char out, char *val, char *precision, int verbose)
 int in_process(char *opt_val)
 {
 	
-	const char *lval_list[] = {BIN, DEC, OCT, HEX, KELVIN, FAHRENHEIT, CELSIUS};
-	int i, lval_size = 7;
+	const char *lval_list[] = {BIN, DEC, OCT, HEX, KELVIN, FAHRENHEIT, CELSIUS, OUNCE, GRAM};
+	const char *rc_list = "bdohkfcug";
+	int i, lval_size = 9;
 	int len = strlen(opt_val);
 	char fch = opt_val[0]; /* opt_val is minimum strlen=1. That is guaranteed by marg */	
 
 
 	for (i=0; i<lval_size; i++){
 		
-		/* compare whole string, first 3 chars, and 1-st char */
-		if ( strcmp(opt_val, lval_list[i]) == 0 || (len == 3 && strncmp(opt_val, lval_list[i], 3) == 0)
-	         || (len == 1 && fch == lval_list[i][0]) ){
+		/* compare whole string */
+		if (len > 1 && strcmp(opt_val, lval_list[i]) == 0){
+			return rc_list[i]; 
+		} 
+		/* compare 3 char shortcuts */
+		if (len == 3 && strncmp(opt_val, lval_list[i], 3) == 0){
+			return rc_list[i];
+		}
+		/* compare 1 char */
+		if ( len == 1 && fch == rc_list[i] ){
 			
 			switch(fch){
 
@@ -222,11 +251,14 @@ int in_process(char *opt_val)
 					return 'c';
 				case 'k':
 					return 'k';
-				default:
-					fprintf(stderr, "assert switch-case: case '%c' not found in io_val_chk()\n", fch);
-					exit(EXIT_FAILURE);
+				case 'u':
+					return 'u';
+				case 'g':
+					return 'g';
 			}
 		}
+
+		
 	}
 
 	fprintf(stderr, "invalid option operand '%s'\n", opt_val);
@@ -265,6 +297,8 @@ int chk_val(char *val, char input)
 		case 'c':
 		case 'f':
 		case 'k':
+		case 'u':
+		case 'g':
 			return chksfloat(val);
 		default:
 			fprintf(stderr, "assert switch-case: case '%c' not found in chk_val()", input);
