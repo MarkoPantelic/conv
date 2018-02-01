@@ -6,6 +6,15 @@
 
 #include <stdlib.h>
 
+
+/* Commonwealth unit values ratio to metric unit values as defined by the international yard and pound agreement of 1959 */
+double grain = 0.06479891; /* grams in grain */
+float yard = 0.9144; /* meters in yard */
+float pound = 0.45359237; /* kilograms in pound */
+float inch = 0.0254; /* inches in meter */
+
+
+
 /* 
  * Return value how much metric grams are in one ounce depending on ounce variant argument.
  * If 'variant' is invalid return 0 
@@ -15,9 +24,9 @@ float ginounce(char variant)
 	switch (variant){
 
 		case 'a': /* avoirdupois ounce */
-			return 28.349523125; 
-		case 't': /* troy ounce */
-			return 31.1034768; 
+			return 28.349523125; /* 437.5 grains */
+		case 't': /* troy ounce, unit 't oz' or 'oz t', troy ounce of gold ISO 4217 currency code = 'XAU', silver = 'XAG'*/
+			return 31.1034768; /* 480 grains */
 		case 'd': /* Dutch ounce (ons)  */
 			return 100;
 		case 'm': /* Maria Theresa ounce (birr in Ethiopia) */
