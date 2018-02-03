@@ -23,6 +23,11 @@
 #include <chk_inval.h> /* for hex_prfx_chk() */
 
 
+const char DEC[] = "decimal";
+const char BIN[] = "binary";
+const char OCT[] = "octal";
+const char HEX[] = "hexadecimal";
+
 
 /*
  * Allocate heap space for the string of length 'len'. 

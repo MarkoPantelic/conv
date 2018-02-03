@@ -18,7 +18,6 @@
 #define OUT 1
 
 
-
 /* 
  * Print value pointed by 'val' regardless of it's type.
  * If verbose flag is set, print additional info.
@@ -174,7 +173,7 @@ void callconvf(char in, char out, char *val, char *precision, int verbose)
 
 		case 'u':
 			if (out == 'g'){ // 'a' = avoirdupois system - default for testing
-				float gram_value = souncetog(val, 'a'); ptr_cval = &gram_value; type_flag = 'f'; suffix ="g";
+				float gram_value = souncetog(val, TROY_OZ); ptr_cval = &gram_value; type_flag = 'f'; suffix ="g";
 			}
 			else{
 				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
@@ -185,7 +184,7 @@ void callconvf(char in, char out, char *val, char *precision, int verbose)
 		case 'g':
 
 			if (out == 'u'){ // 'a' = avoirdupois system - default for testing
-				float ounce_value = sgtoounce(val, 'a'); ptr_cval = &ounce_value; type_flag = 'f'; suffix ="oz";
+				float ounce_value = sgtoounce(val, TROY_OZ); ptr_cval = &ounce_value; type_flag = 'f'; suffix ="oz t";
 			}
 			else{
 				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 

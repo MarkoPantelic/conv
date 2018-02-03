@@ -7,10 +7,10 @@
 #define _NS_CONV_H
 
 
-const char DEC[] = "decimal";
-const char BIN[] = "binary";
-const char OCT[] = "octal";
-const char HEX[] = "hexadecimal";
+extern const char DEC[];
+extern const char BIN[];
+extern const char OCT[];
+extern const char HEX[];
 
 
 char *sbin_to_shex(const char *num_str, char repr);

@@ -8,9 +8,9 @@
 #ifndef _TEMPCONV_H
 #define _TEMPCONV_H
 
-const char KELVIN[] = "kelvin";
-const char CELSIUS[] = "celsius";
-const char FAHRENHEIT[] = "fahrenheit";
+extern const char KELVIN[];
+extern const char CELSIUS[];
+extern const char FAHRENHEIT[];
 
 float cel_to_kel(float cel);
 float cel_to_fahr(float cel);

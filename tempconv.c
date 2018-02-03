@@ -9,6 +9,10 @@
 #include <stdlib.h>
 
 
+const char KELVIN[] = "kelvin";
+const char CELSIUS[] = "celsius";
+const char FAHRENHEIT[] = "fahrenheit";
+
 
 /* 
  * Convert Celsius temperature value to Fahrenheit temperature value 

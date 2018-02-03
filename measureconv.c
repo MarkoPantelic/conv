@@ -5,6 +5,11 @@
 
 
 #include <stdlib.h>
+#include "measureconv.h"
+
+
+const char OUNCE[] = "ounce";
+const char GRAM[] = "gram";
 
 
 /* Commonwealth unit values ratio to metric unit values as defined by the international yard and pound agreement of 1959 */
@@ -12,7 +17,6 @@ double grain = 0.06479891; /* grams in grain */
 float yard = 0.9144; /* meters in yard */
 float pound = 0.45359237; /* kilograms in pound */
 float inch = 0.0254; /* inches in meter */
-
 
 
 /* 
@@ -23,21 +27,21 @@ float ginounce(char variant)
 {
 	switch (variant){
 
-		case 'a': /* avoirdupois ounce */
+		case AVOIRDUPOIS_OZ:  /* avoirdupois ounce */
 			return 28.349523125; /* 437.5 grains */
-		case 't': /* troy ounce, unit 't oz' or 'oz t', troy ounce of gold ISO 4217 currency code = 'XAU', silver = 'XAG'*/
+		case TROY_OZ: /* troy ounce, unit 't oz' or 'oz t', troy ounce of gold ISO 4217 currency code = 'XAU', silver = 'XAG'*/
 			return 31.1034768; /* 480 grains */
-		case 'd': /* Dutch ounce (ons)  */
+		case DUTCH_OZ: /* Dutch ounce (ons)  */
 			return 100;
-		case 'm': /* Maria Theresa ounce (birr in Ethiopia) */
+		case THERESIA_OZ: /* Maria Theresia ounce (birr in Ethiopia) */
 			return 28.0668;
-		case 's': /* Spanish ounce (onza) */
+		case SPANISH_OZ: /* Spanish ounce (onza) */
 			return 28.75;
-		case 'f': /* French ounce (once) */
+		case FRENCH_OZ: /* French ounce (once) */
 			return 30.59;
-		case 'p': /* Portuguese ounce (onca) */
+		case PORTUGUESE_OZ: /* Portuguese ounce (onca) */
 			return 28.69;
-		case 'c': /* Chinese metric ounce */
+		case CHINESE_OZ: /* Chinese metric ounce */
 			return 50;
 		default:
 			return 0;

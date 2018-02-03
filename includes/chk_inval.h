@@ -5,11 +5,7 @@
 
 #ifndef _CHK_INVAL_H
 #define _CHK_INVAL_H
-/*
-const char KELVIN[] = "kelvin";
-const char CELSIUS[] = "celsius";
-const char FAHRENHEIT[] = "fahrenheit";
-*/
+
 int hex_prfx_chk(const char *hex_str);
 int chksoct(const char *val);
 int chkshex(const char *val);
