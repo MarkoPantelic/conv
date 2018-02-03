@@ -1,15 +1,17 @@
 # Makefile for 'conv'
 
 TARGET = conv
+INSTALL_DIR = .
 
 CC = gcc
 CFLAGS = -Wall
 LIB = -lm
 DBGFLAGS = -g
 OBJ = main.o marg.o nsconv.o tempconv.o measureconv.o chk_inval.o callconvf.o
-BUILD_DIR := build
 VPATH = marg
 INCL_DIR = includes
+BUILD_DIR := build
+
 
 
 # create build directory if it doesn't exist
@@ -25,18 +27,28 @@ $(BUILD_DIR)/main.o: main.c
 $(BUILD_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) -I$(INCL_DIR) -o $@ -c $<
 	
-.PHONY: clean
+
+
+.PHONY: clean install uninstall
 
 clean:
 	rm -f $(addprefix $(BUILD_DIR)/,$(OBJ)) $(BUILD_DIR)/$(TARGET)
 
+install:
+	cp build/$(TARGET) $(INSTALL_DIR)
+	if [ $$? -eq 0 ]; then \
+		echo "'$(TARGET)' successfully installed in directory '$(INSTALL_DIR)'"; \
+	else \
+		echo "Install failed! Invalid permission rights ?"; \
+	fi;
 
-#TODO
-#install:
-#	cp build/$(TARGET) $(BIN_DIR)
-#
-#unnstall:
-#	rm build/$(TARGET) $(BIN_DIR)
-#
+
+uninstall:
+	rm -f $(INSTALL_DIR)/$(TARGET)
+	if [ $$? -eq 0 ]; then \
+		echo "Uninstallation successsfull, '$(INSTALL_DIR)/$(TARGET)' removed";\
+	else \
+		echo "Uninstall failed! Invalid permission rights ?"; \
+	fi;
 
 
