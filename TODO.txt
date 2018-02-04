@@ -1,12 +1,13 @@
 Unit tests:
 ===========
 
-* Create unit tests for all conversion functions
-
 
 Overall:
 ========
 * protect conversion funcions from overflow when too large result is to be produced
+* add configuration file in /etc which should contain:
+ 	- currency table (updated from the internet on request)
+	- default unit system for interwoven systems ( imperial and us customary system for example)
 
 
 Insert conversions:
@@ -38,10 +39,16 @@ Insert conversions:
 	- POUND
 	- DIN ...
 
+* Measures and weights
+	- English units (e.g. bushel, nail, palm, bovate, hide, teaspoon, rundlet, pin, firkin, kenning...)
+	- Barrel to liter
+
+
 * Misc
-	Barrel to liter
 	colorhex to color255
 
+* Aaproximation (non scientific - but estimate)
+	- conversion from past time (old, e.g. 1850) sterling pound value to current currency value (based on past time value of gold to bread or wheat)
 
 
 Interface:

@@ -1,0 +1,4 @@
+#ifndef _IMPERIAL_SYSTEM_H
+#define _IMPERIAL_SYSTEM_H
+
+#endif /* _IMPERIAL_SYSTEM_H */

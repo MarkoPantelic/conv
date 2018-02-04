@@ -1,22 +1,18 @@
 /*============================================
  *		    measureconv
- *	Conversions between measure units
+ *	Conversions between different weights 
+ *	and measure units
  *============================================*/
 
 
 #include <stdlib.h>
 #include "measureconv.h"
+#include "imperial_system.h"
 
 
 const char OUNCE[] = "ounce";
 const char GRAM[] = "gram";
 
-
-/* Commonwealth unit values ratio to metric unit values as defined by the international yard and pound agreement of 1959 */
-double grain = 0.06479891; /* grams in grain */
-float yard = 0.9144; /* meters in yard */
-float pound = 0.45359237; /* kilograms in pound */
-float inch = 0.0254; /* inches in meter */
 
 
 /* 
