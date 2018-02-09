@@ -6,12 +6,19 @@
 #ifndef _NS_CONV_H
 #define _NS_CONV_H
 
+#include "wam_unit.h"
 
-extern const char DEC[];
 extern const char BIN[];
 extern const char OCT[];
+extern const char DEC[];
 extern const char HEX[];
 
+extern int BIN_ID;
+extern int OCT_ID;
+extern int DEC_ID;
+extern int HEX_ID;
+
+unit **mknsunits(int *ns_len);
 
 char *sbin_to_shex(const char *num_str, char repr);
 char *sbin_to_soct(const char *num_str);

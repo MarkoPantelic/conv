@@ -4,11 +4,14 @@ Unit tests:
 
 Overall:
 ========
-* protect conversion funcions from overflow when too large result is to be produced
+* change 'unit' to 'unit_t'
+* protect conversion functions from overflow when too large result is to be produced
 * add configuration file in /etc which should contain:
  	- currency table (updated from the internet on request)
 	- default unit system for interwoven systems ( imperial and us customary system for example)
-
+* add info messages when conversion has some quack to it (e.g. unit value is not exact or approximation)
+* add -s main option - to suppress info messages
+* do derived units of measurement conversion (e.g km/s to mi/h) 
 
 Insert conversions:
 ===================
@@ -21,6 +24,31 @@ Insert conversions:
 	- Trigesimal (30)
 	- Sexagesimal (60)
 	
+* Measures and weights
+	- English units (e.g. bushel, nail, palm, bovate, hide, teaspoon, rundlet, pin, firkin, kenning...)
+	- Barrel to liter
+	- Roman system
+	- Greek system
+	- Italian ---> wiki: units_of_measurement (italian metrification table picture)
+	- Cubit e.g. Egyptian, Mayan (approximation)
+
+* Burmese units of measurement
+
+* Astronomical system of units
+	- gigameter
+	- parsec
+	- megaparsec
+	- solar mass ...
+
+* non-standard units
+	- Knot (nautical)
+	- megaton
+	- electronvolt
+
+* Energy units
+	- cal
+	- J
+	- kiloton
 
 * Storage size
 	- b, kb, Mb, MB ...
@@ -33,16 +61,11 @@ Insert conversions:
 
 * Currency
 	Create a program which fetches current currency relative values
-	from bank sites
+	from bank sites. Use three letter currency codes
 	- EUR
 	- DOL ($)
 	- POUND
 	- DIN ...
-
-* Measures and weights
-	- English units (e.g. bushel, nail, palm, bovate, hide, teaspoon, rundlet, pin, firkin, kenning...)
-	- Barrel to liter
-
 
 * Misc
 	colorhex to color255

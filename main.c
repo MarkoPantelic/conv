@@ -2,7 +2,8 @@
 	         - conv -
 	General purpose converter
 
-	Author: Marko Pantelic
+	Author: Marko Pantelic, 
+	marko_pantelic@mail.com
 ========================================*/
 
 
@@ -10,7 +11,9 @@
 #include <stdlib.h>
 #include "marg.h"
 #include "callconvf.h"
-
+#include "wam_unit.h"
+#include "imperial_system.h"
+#include "nsconv.h"
 
 
 void print_usage()
@@ -33,13 +36,13 @@ int main(int argc, char* argv[])
 {
 
 	int i, verbose;
-	char short_opt, in, out, valtmp[1], *val, *operand, *precision; 
+	char short_opt, valtmp[1], *instr, *outstr, *val, *operand, *precision; 
+	unit *in, *out, **all_units;
 
-	in = out = valtmp[0] = '\0';
+	valtmp[0] = '\0';
 	val = valtmp;
-	verbose = 0; /* default set not to be verbose */
-	precision = "2"; /* default precision */
-
+	verbose = 0; /* default set, don't be verbose */
+	precision = "2"; /* default float precision */
 
 	if (argc < 2){
 		print_usage();
@@ -54,6 +57,21 @@ int main(int argc, char* argv[])
 	
 	margstructs options = margcreate("conv", argc, argv, n_opt, shopt, longopt, has_operand);
 
+	/* create list of all units */
+	/* TEMPORARY SOLUTION !!! */
+	int au_len, imp_len, nsu_len;
+
+	unit **imperial_u = mkimperial(&imp_len);
+	unit **ns_u = mknsunits(&nsu_len);
+
+	au_len = imp_len + nsu_len;
+	all_units = unite_unit_lists(imperial_u, imp_len, ns_u, nsu_len);
+	
+	/* DEBUG */
+	printf("first_unit -> %s\n", all_units[0]->fullname);
+	printf("last_unit -> %s\n", all_units[au_len-1]->fullname);
+
+		
 
 	/* loop through options */
 	for (i=0; i<n_opt; i++){ 
@@ -71,22 +89,24 @@ int main(int argc, char* argv[])
 			
 	
 			if (short_opt == 'i'){
-				in = in_process(operand);
+				instr = operand;
+				in = in_process(instr, all_units, au_len);
 			}
 			else if (short_opt == 'o'){
-				out = out_process(operand);
+				outstr = operand;
+				out = out_process(outstr, all_units, au_len);
 			}
 			else if (short_opt == 'n'){
 				val = operand;
 			}
-			else if (short_opt == 'p'){
+			else if (short_opt == 'p'){ /* TODO: check precision value */
 				precision = operand;
 			}
 			else if (short_opt == 'v'){
 				verbose = 1;
 			}
 			else if (short_opt == 'h'){
-			/* silently ignore this option if it's not the only one given */
+			/* silently ignore this option if it isn't the only one given */
 				if (argc == 2){
 					print_usage();
 					exit(EXIT_SUCCESS);
@@ -99,18 +119,25 @@ int main(int argc, char* argv[])
 			
 		}
 	}
+	
+	/* DEBUG */
+	printf("all options parsed\n");
 
-
-	if (in == '\0' || out == '\0'){
-		fprintf(stderr, "'input' and 'output' argument values required\n");
+	if (in == NULL){
+		fprintf(stderr, "'input' argument '%s' invalid\n", instr);
 		exit(EXIT_FAILURE);
 	}
+	if (out == NULL){
+		fprintf(stderr, "'output' argument '%s' invalid\n", outstr);
+		exit(EXIT_FAILURE);
+	}
+
 	if (val[0] == '\0'){
 		fprintf(stderr, "'value' argument value required\n");
 		exit(EXIT_FAILURE);
 	}
 
-	if (chk_val(val, in) == -1){
+	if (chk_val(val, 'q') == -1){
 		fprintf(stderr, "invalid input value \"%s\"\n", val);
 		exit(EXIT_FAILURE);
 

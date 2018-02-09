@@ -12,6 +12,8 @@
 #include "tempconv.h"
 #include "chk_inval.h"
 #include "measureconv.h"
+#include "wam_unit.h" /* definitions for weight and measure unit struct and functions that operate on it */
+#include "global_def.h"
 
 
 #define IN 0
@@ -34,7 +36,7 @@ void cprint(const char *prefix, const char *suffix, char vtype, void *val, char 
 	else if (vtype == 'd')
 		printf(format_str, *((int *)val) );	
 	else if (vtype == 'f'){
-		sprintf(format_str, "%s%%0.%s%c%s\n", prefix, precision, vtype, suffix);
+		sprintf(format_str, "%s%%0.%s%c %s\n", prefix, precision, vtype, suffix);
 		printf(format_str, *((float*)val) );
 	}
 	else {
@@ -57,119 +59,16 @@ void not_implemented()
  * Call conversion function according to 'in' and 'out' args.  
  * Print result with verbosity in mind.
  */
-void callconvf(char in, char out, char *val, char *precision, int verbose)
+void callconvf(unit *inunit, unit *outunit, char *val, char *precision, int verbose)
 {
+
 	char type_flag = 's'; /* set for default because string is prevailing return type in 'convert functions' */
 	void *ptr_cval;	
 	char *prefix = "", *suffix = "";
 
-	char hex_repr = 'U';
-	char bin_repr = 'f';
 
-	switch(in){
+		/*
 
-		case 'b':
-			if (out == 'd'){
-				int dec_value = sbin_to_dec(val); ptr_cval = &dec_value; type_flag = 'd'; prefix = "decimal value: ";
-			}
-			else if (out == 'o'){
-				ptr_cval = sbin_to_soct(val); prefix = "octal value: ";
-			}
-			else if (out == 'h'){
-				ptr_cval = sbin_to_shex(val, hex_repr); prefix = "hexadecimal value: ";
-			}
-			else{
-				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
-				exit(EXIT_FAILURE);
-			}
-			break;
-
-		case 'o':
-			if (out == 'b'){
-				ptr_cval = soct_to_sbin(val, bin_repr); prefix = "binary value: ";	
-			}
-			else if (out == 'd'){
-				int dec_value = soct_to_dec(val); ptr_cval = &dec_value; type_flag = 'd'; prefix = "decimal value:";
-			}
-			else if (out == 'h'){
-				ptr_cval = soct_to_shex(val, hex_repr); prefix = "hexadecimal value:";	
-			}
-			else{
-				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
-				exit(EXIT_FAILURE);
-			}
-			break;
-
-		case 'd':
-			if (out == 'b'){
-				ptr_cval = sdec_to_sbin(val, bin_repr); prefix = "binary value:";
-			}
-			else if (out == 'o'){
-				ptr_cval = sdec_to_soct(val); prefix = "octal value:";
-			}
-			else if (out == 'h'){
-				ptr_cval = sdec_to_shex(val, hex_repr); prefix = "hexadecimal value: ";
-			}
-			else{
-				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
-				exit(EXIT_FAILURE);
-			}
-			break;
-
-		case 'h':
-			if (out == 'b'){
-				ptr_cval = shex_to_sbin(val, bin_repr); prefix = "binary value: ";
-			}
-			else if (out == 'o'){
-				ptr_cval = shex_to_soct(val); prefix = "octal value: ";
-			}
-			else if (out == 'd'){
-				int dec_value = shex_to_dec(val); ptr_cval = &dec_value; type_flag = 'd'; prefix = "decimal value: ";
-			}
-			else{
-				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
-				exit(EXIT_FAILURE);
-			}
-			break;
-
-		case 'f':
-			if (out == 'c'){
-				float cel_value = sfahr_to_cel(val); ptr_cval = &cel_value; type_flag = 'f'; suffix = "C";
-			}
-			else if (out == 'k'){
-				float kel_value = sfahr_to_kel(val); ptr_cval = &kel_value; type_flag = 'f'; ; suffix = "K";
-			}
-			else{
-				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
-				exit(EXIT_FAILURE);
-			}
-			break;
-
-		case 'c':
-			if (out == 'f'){
-				float fahr_value = scel_to_fahr(val); ptr_cval = &fahr_value; type_flag = 'f'; suffix = "F";
-			}
-			else if (out == 'k'){
-				float kel_value = scel_to_kel(val); ptr_cval = &kel_value; type_flag = 'f'; suffix = "K";
-			}
-			else{
-				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
-				exit(EXIT_FAILURE);
-			}
-			break;
-
-		case 'k':
-			if (out == 'f'){
-				float fahr_value = skel_to_fahr(val); ptr_cval = &fahr_value; type_flag = 'f'; suffix ="F";
-			}
-			else if (out == 'c'){
-				float cel_value = skel_to_cel(val); ptr_cval = &cel_value; type_flag = 'f'; suffix = "C";
-			}
-			else{
-				fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
-				exit(EXIT_FAILURE);
-			}
-			break;
 
 		case 'u':
 			if (out == 'g'){ // 'a' = avoirdupois system - default for testing
@@ -191,12 +90,162 @@ void callconvf(char in, char out, char *val, char *precision, int verbose)
 				exit(EXIT_FAILURE);
 			}
 			break;
-		
+
 		default:
 			fprintf(stderr, "assert switch-case: invalid 'in' argument passed to call_convf()\n");
 			exit(EXIT_FAILURE); 
 	}
+		*/
+
+
+	char hex_repr = 'U';
+	char bin_repr = 'f';
+		
+
+	/* call for imperial units */
 	
+	switch(inunit->system){
+
+		
+		case NUMBER_SYS:
+
+
+			switch(inunit->id){
+
+				case 'b':
+					if (outunit->id == 'd'){
+						int dec_value = sbin_to_dec(val); ptr_cval = &dec_value; type_flag = 'd'; prefix = "decimal value: ";
+					}
+					else if (outunit->id == 'o'){
+						ptr_cval = sbin_to_soct(val); prefix = "octal value: ";
+					}
+					else if (outunit->id == 'h'){
+						ptr_cval = sbin_to_shex(val, hex_repr); prefix = "hexadecimal value: ";
+					}
+					else{
+						fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+						exit(EXIT_FAILURE);
+					}
+					break;
+
+				case 'o':
+					if (outunit->id == 'b'){
+						ptr_cval = soct_to_sbin(val, bin_repr); prefix = "binary value: ";	
+					}
+					else if (outunit->id == 'd'){
+						int dec_value = soct_to_dec(val); ptr_cval = &dec_value; type_flag = 'd'; prefix = "decimal value:";
+					}
+					else if (outunit->id == 'h'){
+						ptr_cval = soct_to_shex(val, hex_repr); prefix = "hexadecimal value:";	
+					}
+					else{
+						fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+						exit(EXIT_FAILURE);
+					}
+					break;
+
+				case 'd':
+					if (outunit->id == 'b'){
+						ptr_cval = sdec_to_sbin(val, bin_repr); prefix = "binary value:";
+					}
+					else if (outunit->id == 'o'){
+						ptr_cval = sdec_to_soct(val); prefix = "octal value:";
+					}
+					else if (outunit->id == 'h'){
+						ptr_cval = sdec_to_shex(val, hex_repr); prefix = "hexadecimal value: ";
+					}
+					else{
+						fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+						exit(EXIT_FAILURE);
+					}
+					break;
+
+				case 'h':
+					if (outunit->id == 'b'){
+						ptr_cval = shex_to_sbin(val, bin_repr); prefix = "binary value: ";
+					}
+					else if (outunit->id == 'o'){
+						ptr_cval = shex_to_soct(val); prefix = "octal value: ";
+					}
+					else if (outunit->id == 'd'){
+						int dec_value = shex_to_dec(val); ptr_cval = &dec_value; type_flag = 'd'; prefix = "decimal value: ";
+					}
+					else{
+						fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+						exit(EXIT_FAILURE);
+					}
+					break;
+
+				default:
+					fprintf(stderr, "callconvf() assert switch-case: invalid IMPERIAL_SYS unit 'id'\n");
+					exit(EXIT_FAILURE); 
+			}
+
+			break;
+		/* end case NUMBER_SYS */
+
+		case TEMPERATURE:
+			
+			switch(inunit->id){
+
+				case 'f':
+					if (outunit->id == 'c'){
+						float cel_value = sfahr_to_cel(val); ptr_cval = &cel_value; type_flag = 'f'; suffix = "C";
+					}
+					else if (outunit->id == 'k'){
+						float kel_value = sfahr_to_kel(val); ptr_cval = &kel_value; type_flag = 'f'; ; suffix = "K";
+					}
+					else{
+						fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+						exit(EXIT_FAILURE);
+					}
+					break;
+
+				case 'c':
+					if (outunit->id == 'f'){
+						float fahr_value = scel_to_fahr(val); ptr_cval = &fahr_value; type_flag = 'f'; suffix = "F";
+					}
+					else if (outunit->id == 'k'){
+						float kel_value = scel_to_kel(val); ptr_cval = &kel_value; type_flag = 'f'; suffix = "K";
+					}
+					else{
+						fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+						exit(EXIT_FAILURE);
+					}
+					break;
+
+				case 'k':
+					if (outunit->id == 'f'){
+						float fahr_value = skel_to_fahr(val); ptr_cval = &fahr_value; type_flag = 'f'; suffix ="F";
+					}
+					else if (outunit->id == 'c'){
+						float cel_value = skel_to_cel(val); ptr_cval = &cel_value; type_flag = 'f'; suffix = "C";
+					}
+					else{
+						fprintf(stderr, "invalid 'out' conversion type for 'in' value type\n"); 
+						exit(EXIT_FAILURE);
+					}
+					break;
+
+				default:
+					fprintf(stderr, "callconvf() assert switch-case: invalid TEMPERATURE unit 'id'\n");
+					exit(EXIT_FAILURE); 
+			}
+
+			break;
+		/* end case TEMPERATURE */
+	
+		case IMPERIAL_SYS:
+
+			if(1){
+				float cnvval = convert_unit(atof(val), inunit, outunit); ptr_cval = &cnvval; type_flag = 'f'; suffix = outunit->symbol;	
+			}
+			break;
+
+		default:
+			fprintf(stderr, "programer error: call_convf() => inunit->system is unknown!\n");
+			exit(EXIT_FAILURE); 
+	}
 
 	/* If verbose flag is not set, remove prefix and suffix */
 	if (!verbose){
@@ -211,27 +260,28 @@ void callconvf(char in, char out, char *val, char *precision, int verbose)
  * Check if values passed to argument 'input' are valid
  * Return first char from string opt_val
  */
-int in_process(char *opt_val)
+unit *in_process(char *opt_val, unit **all_units, int au_len)
 {
-	
+	unit *in = NULL;
+	/*
 	const char *lval_list[] = {BIN, DEC, OCT, HEX, KELVIN, FAHRENHEIT, CELSIUS, OUNCE, GRAM};
 	const char *rc_list = "bdohkfcug";
-	int i, lval_size = 9;
+	int i, lval_size = 9; 
 	int len = strlen(opt_val);
-	char fch = opt_val[0]; /* opt_val is minimum strlen=1. That is guaranteed by marg */	
+	char fch = opt_val[0]; // opt_val is minimum strlen=1. That is guaranteed by marg	
 
 
 	for (i=0; i<lval_size; i++){
 		
-		/* compare whole string */
+		// compare whole string
 		if (len > 1 && strcmp(opt_val, lval_list[i]) == 0){
 			return rc_list[i]; 
 		} 
-		/* compare 3 char shortcuts */
+		// compare 3 char shortcuts
 		if (len == 3 && strncmp(opt_val, lval_list[i], 3) == 0){
 			return rc_list[i];
 		}
-		/* compare 1 char */
+		// compare 1 char
 		if ( len == 1 && fch == rc_list[i] ){
 			
 			switch(fch){
@@ -259,19 +309,18 @@ int in_process(char *opt_val)
 
 		
 	}
-
-	fprintf(stderr, "invalid option operand '%s'\n", opt_val);
-	exit(EXIT_FAILURE);
-
-	return -1;
+	*/
+	in = search_for_unit(opt_val, all_units, au_len);
+	
+	return in;
 	
 }
 
 
 /* Currently same as for in_process() */
-int out_process(char *opt_val)
+unit *out_process(char *opt_val, unit **all_units, int au_len)
 {
-	return in_process(opt_val);
+	return in_process(opt_val, all_units, au_len);
 }
 
 
@@ -283,7 +332,6 @@ int out_process(char *opt_val)
  */
 int chk_val(char *val, char input)
 {
-	
 	switch(input){
 		case 'b':
 			return chksbin(val);
@@ -298,6 +346,7 @@ int chk_val(char *val, char input)
 		case 'k':
 		case 'u':
 		case 'g':
+		case 'q':
 			return chksfloat(val);
 		default:
 			fprintf(stderr, "assert switch-case: case '%c' not found in chk_val()", input);

@@ -21,6 +21,8 @@
 #include <string.h>
 #include <math.h> /* for pow() */
 #include <chk_inval.h> /* for hex_prfx_chk() */
+#include "wam_unit.h"
+#include "global_def.h"
 
 
 const char DEC[] = "decimal";
@@ -31,16 +33,10 @@ const char HEX[] = "hexadecimal";
 
 /*
  * Allocate heap space for the string of length 'len'. 
- * Do error checking.
  */
 static char *ns_malloc(int len)
 {
-	char *heap;
-
-	if ( (heap = (char *) malloc(sizeof(char)*(len+1))) == NULL){
-		fprintf(stderr, "Cannot allocate memory\n");
-		exit(EXIT_FAILURE);
-	}
+	char *heap = xmalloc( malloc(sizeof(char)*(len+1)) );
 
 	return heap;
 }
@@ -225,10 +221,7 @@ short *dec_to_binarr(int num, int *bit_width, int *hb1_pos)
 
 
  	/* alloc mem for array representation of a binary number */
-	if ( (bn_arr = malloc(sizeof(short)*bits)) == NULL ){
-		fprintf(stderr, "memory allocation error\n");
-		exit(EXIT_FAILURE);		
-	}
+	bn_arr = xmalloc(sizeof(short)*bits);
 
 	/* msb_1 value is an int number calculated as => int number with all bits set
   	   to 0 except the most significant bit, which is set to 1 */
@@ -350,6 +343,35 @@ char *soct_to_shex(const char *str_oct, char repr)
 }
 
 
+//enum { BIN_ID, DEC_ID, OCT_ID, HEX_ID };
+int BIN_ID = 'b';
+int DEC_ID = 'd';
+int OCT_ID = 'o';
+int HEX_ID = 'h';
 
 
+/* create list and allocate space for number system units */
+unit **mknsunits(int *ns_len)
+{
 
+	*ns_len = 4;
+	unit **ns = xmalloc ( sizeof(unit*) * (*ns_len) );
+
+
+	/* set number system units
+	 * ----------------------- */
+	/* binary */
+	ns[0] = mkunit(BIN_ID, C_NUMBER, NUMBER_SYS, "binary", "bin", 
+		DEC_ID, -1, -1, -1, -1);
+	/* octal */
+	ns[1] = mkunit(OCT_ID, C_NUMBER, NUMBER_SYS, "octal", "oct", 
+		DEC_ID, -1, -1, -1, -1);
+	/* decimal */
+	ns[2] = mkunit(DEC_ID, C_NUMBER, NUMBER_SYS, "decimal", "dec", 
+		DEC_ID, -1, -1, -1, -1);
+	/* hexadecimal */
+	ns[3] = mkunit(HEX_ID, C_NUMBER, NUMBER_SYS, "hexadecimal", "hex", 
+		DEC_ID, -1, -1, -1, -1);
+
+	return ns;
+}
