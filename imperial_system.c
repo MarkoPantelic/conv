@@ -44,15 +44,15 @@ enum {GRAIN_I_ID, DRAM_I_ID, OUNCE_I_ID, POUND_I_ID, STONE_I_ID, QUARTER_I_ID,
  
 
 
-/* function to initialize all imperial unit's and return **unit[] */
-unit **mkimperial(int *iu_len){
+/* function to initialize all imperial unit_t's and return **unit_t[] */
+unit_t **mkimperial(int *iu_len){
 
-/* Unit values ratio to SI unit values set in the following code, are defined
+/* Unit values ratio to SI unit_t values set in the following code, are defined
  * by the international yard and pound agreement of 1959 */
 
 
 	*iu_len = 29;
-	unit **iu = xmalloc ( sizeof(unit*) * (*iu_len) );
+	unit_t **iu = xmalloc ( sizeof(unit_t*) * (*iu_len) );
 
 
 	/* set imperial weight units
@@ -165,7 +165,5 @@ unit **mkimperial(int *iu_len){
 
 
 	return iu;
-/* = { grain, dram, ounce, pound, stone, quarter,
-		hundredweight, ton, slug, yard, mile };
-*/
+
 }

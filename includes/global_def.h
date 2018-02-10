@@ -7,7 +7,7 @@
 #define NUMBER_SYS 3
 #define TEMPERATURE 4
 
-/* define wam unit class possibilities */
+/* define wam unit_t class possibilities */
 #define C_WEIGHT 1
 #define C_LENGTH 2
 #define C_AREA 3

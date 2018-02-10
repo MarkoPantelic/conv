@@ -8,6 +8,7 @@
 
 #include <stdlib.h>
 #include "global_def.h"
+#include "wam_unit.h"
 
 const char KELVIN[] = "kelvin";
 const char CELSIUS[] = "celsius";
@@ -109,24 +110,24 @@ int CELSIUS_ID = 'c';
 
 
 /* create list and allocate space for temperature units */
-unit **mktemperature_units(int *t_len)
+unit_t **mktemperature_units(int *t_len)
 {
 
 	*t_len = 3;
-	unit **t = xmalloc ( sizeof(unit*) * (*t_len) );
+	unit_t **t = xmalloc ( sizeof(unit_t*) * (*t_len) );
 
 
 	/* set temperature system units
 	 * ----------------------- */
 	/* kelvin */
-	ns[0] = mkunit(KELVIN_ID, C_TEMP, TEMPERATURE, "kelvin", "k", 
+	t[0] = mkunit(KELVIN_ID, C_TEMP, TEMPERATURE, "kelvin", "k", 
 		CELSIUS_ID, -1, -1, -1, -1);
 	/* fahrenheit */
-	ns[1] = mkunit(FAHRENHEIT_ID, C_TEMP, TEMPERATURE, "fahrenheit", "f", 
+	t[1] = mkunit(FAHRENHEIT_ID, C_TEMP, TEMPERATURE, "fahrenheit", "f", 
 		CELSIUS_ID, -1, -1, -1, -1);
 	/* celsius */
-	ns[2] = mkunit(CELSIUS_ID, C_TEMP, TEMPERATURE, "celsius", "c", 
+	t[2] = mkunit(CELSIUS_ID, C_TEMP, TEMPERATURE, "celsius", "c", 
 		CELSIUS_ID, -1, -1, -1, -1);
 
-	return ns;
+	return t;
 }

@@ -25,7 +25,7 @@ float ginounce(char variant)
 
 		case AVOIRDUPOIS_OZ:  /* avoirdupois ounce */
 			return 28.349523125; /* 437.5 grains */
-		case TROY_OZ: /* troy ounce, unit 't oz' or 'oz t', troy ounce of gold ISO 4217 currency code = 'XAU', silver = 'XAG'*/
+		case TROY_OZ: /* troy ounce, unit_t 't oz' or 'oz t', troy ounce of gold ISO 4217 currency code = 'XAU', silver = 'XAG'*/
 			return 31.1034768; /* 480 grains */
 		case DUTCH_OZ: /* Dutch ounce (ons)  */
 			return 100;

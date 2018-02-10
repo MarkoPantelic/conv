@@ -9,12 +9,12 @@
 
 
 /* TODO: pass alternative names and alternative symbol strings*/
-/* allocate space for wam unit struct and assign to it's members passed values */
-unit *mkunit(int id, int cls, int sys, char *fn, char *sym, int sbuid, 
+/* allocate space for wam unit_t struct and assign to it's members passed values */
+unit_t *mkunit(int id, int cls, int sys, char *fn, char *sym, int sbuid, 
 	     double rtbu, double rtcsu, int csuid, int csys)
 {
 
-	unit *u = xmalloc(sizeof(unit));
+	unit_t *u = xmalloc(sizeof(unit_t));
 	
 	u->id = id;
 	u->system = sys;
@@ -36,8 +36,8 @@ unit *mkunit(int id, int cls, int sys, char *fn, char *sym, int sbuid,
 }
 
 
-/* search name member in wam unit */
-unit *search_units_by_name(char *name, unit **unit_list, int list_len)
+/* search name member in wam unit_t */
+unit_t *search_units_by_name(char *name, unit_t **unit_list, int list_len)
 {
 	int i;
 
@@ -50,8 +50,8 @@ unit *search_units_by_name(char *name, unit **unit_list, int list_len)
 	return NULL;
 }
 
-/* search symbol member in wam unit */
-unit *search_units_by_symbol(char *symbol, unit **unit_list, int list_len)
+/* search symbol member in wam unit_t */
+unit_t *search_units_by_symbol(char *symbol, unit_t **unit_list, int list_len)
 {
 	int i;
 
@@ -64,11 +64,11 @@ unit *search_units_by_symbol(char *symbol, unit **unit_list, int list_len)
 	return NULL;
 }
 
-/* search in unit haystack for the needle */
-unit *search_for_unit(char *needle, unit **haystack, int haystack_len)
+/* search in unit_t haystack for the needle */
+unit_t *search_for_unit(char *needle, unit_t **haystack, int haystack_len)
 {
 
-	unit *s = search_units_by_symbol(needle, haystack, haystack_len);
+	unit_t *s = search_units_by_symbol(needle, haystack, haystack_len);
 	
 	if(s != NULL)
 		return s;
@@ -80,12 +80,15 @@ unit *search_for_unit(char *needle, unit **haystack, int haystack_len)
 
 
 /* convert inval from inunit to outunit value */
-double convert_unit(double inval, unit *inunit, unit *outunit) {
+double convert_unit(double inval, unit_t *inunit, unit_t *outunit) {
 
 	double conv_val;
-	
+
+	/* DEBUG */
+	/*	
 	printf("convert_unit() passed val = %f\n", inval);
 	printf("passed inunit -> %s, outunit -> %s\n", inunit->fullname, outunit->fullname); 
+	*/
 
 	if (inunit->class != outunit->class){
 		return -1.0;
@@ -96,7 +99,7 @@ double convert_unit(double inval, unit *inunit, unit *outunit) {
 		if (inunit->sys_base_unit_id == outunit->sys_base_unit_id)
 			conv_val = inval * inunit->rtbu / outunit->rtbu;
 		else{
-			printf("ERROR! convert_unit() -> unequal system base unit id for inunit and outunit\n");
+			printf("ERROR! convert_unit() -> unequal system base unit_t id for inunit and outunit\n");
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -120,16 +123,16 @@ double convert_unit(double inval, unit *inunit, unit *outunit) {
 }
 
 
-/* unite all unit lists into one list */
+/* unite all unit_t lists into one list */
 /* TEMPORARY SOLUTION !!! */
-unit **unite_unit_lists(unit **first, int first_len, unit **second, int second_len){
+unit_t **unite_unit_lists(unit_t **first, int first_len, unit_t **second, int second_len){
  	
 	int i, j, total_len = first_len + second_len;
 
-	//unit **total_list = realloc(first, sizeof(unit*)*total_len);
+	//unit_t **total_list = realloc(first, sizeof(unit_t*)*total_len);
 
 	
-	unit **total_list = xmalloc(sizeof(unit*)*total_len);
+	unit_t **total_list = xmalloc(sizeof(unit_t*)*total_len);
 
 	for(i=0; i<first_len; i++){
 		total_list[i] = first[i];	
@@ -152,4 +155,14 @@ unit **unite_unit_lists(unit **first, int first_len, unit **second, int second_l
 	*/
 
 	return total_list;
+}
+
+
+void print_unit_list(unit_t **list, int list_len)
+{		
+	int i;
+
+	for(i=0; i<list_len; i++){
+		printf("%d - %s (%s)\n", list[i]->id, list[i]->fullname, list[i]->symbol);
+	}
 }

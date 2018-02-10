@@ -36,7 +36,7 @@ const char HEX[] = "hexadecimal";
  */
 static char *ns_malloc(int len)
 {
-	char *heap = xmalloc( malloc(sizeof(char)*(len+1)) );
+	char *heap = xmalloc( sizeof(char)*(len+1) );
 
 	return heap;
 }
@@ -351,11 +351,11 @@ int HEX_ID = 'h';
 
 
 /* create list and allocate space for number system units */
-unit **mknsunits(int *ns_len)
+unit_t **mknsunits(int *ns_len)
 {
 
 	*ns_len = 4;
-	unit **ns = xmalloc ( sizeof(unit*) * (*ns_len) );
+	unit_t **ns = xmalloc ( sizeof(unit_t*) * (*ns_len) );
 
 
 	/* set number system units

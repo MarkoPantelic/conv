@@ -12,7 +12,7 @@
 #include "tempconv.h"
 #include "chk_inval.h"
 #include "measureconv.h"
-#include "wam_unit.h" /* definitions for weight and measure unit struct and functions that operate on it */
+#include "wam_unit.h" /* definitions for weight and measure unit_t struct and functions that operate on it */
 #include "global_def.h"
 
 
@@ -59,7 +59,7 @@ void not_implemented()
  * Call conversion function according to 'in' and 'out' args.  
  * Print result with verbosity in mind.
  */
-void callconvf(unit *inunit, unit *outunit, char *val, char *precision, int verbose)
+void callconvf(unit_t *inunit, unit_t *outunit, char *val, char *precision, int verbose)
 {
 
 	char type_flag = 's'; /* set for default because string is prevailing return type in 'convert functions' */
@@ -177,7 +177,7 @@ void callconvf(unit *inunit, unit *outunit, char *val, char *precision, int verb
 					break;
 
 				default:
-					fprintf(stderr, "callconvf() assert switch-case: invalid IMPERIAL_SYS unit 'id'\n");
+					fprintf(stderr, "callconvf() assert switch-case: invalid IMPERIAL_SYS unit_t 'id'\n");
 					exit(EXIT_FAILURE); 
 			}
 
@@ -228,7 +228,7 @@ void callconvf(unit *inunit, unit *outunit, char *val, char *precision, int verb
 					break;
 
 				default:
-					fprintf(stderr, "callconvf() assert switch-case: invalid TEMPERATURE unit 'id'\n");
+					fprintf(stderr, "callconvf() assert switch-case: invalid TEMPERATURE unit_t 'id'\n");
 					exit(EXIT_FAILURE); 
 			}
 
@@ -260,9 +260,9 @@ void callconvf(unit *inunit, unit *outunit, char *val, char *precision, int verb
  * Check if values passed to argument 'input' are valid
  * Return first char from string opt_val
  */
-unit *in_process(char *opt_val, unit **all_units, int au_len)
+unit_t *in_process(char *opt_val, unit_t **all_units, int au_len)
 {
-	unit *in = NULL;
+	unit_t *in = NULL;
 	/*
 	const char *lval_list[] = {BIN, DEC, OCT, HEX, KELVIN, FAHRENHEIT, CELSIUS, OUNCE, GRAM};
 	const char *rc_list = "bdohkfcug";
@@ -318,7 +318,7 @@ unit *in_process(char *opt_val, unit **all_units, int au_len)
 
 
 /* Currently same as for in_process() */
-unit *out_process(char *opt_val, unit **all_units, int au_len)
+unit_t *out_process(char *opt_val, unit_t **all_units, int au_len)
 {
 	return in_process(opt_val, all_units, au_len);
 }

@@ -4,12 +4,12 @@ Unit tests:
 
 Overall:
 ========
-* change 'unit' to 'unit_t'
+* insert option -e [systems, [imperial, si...]..] which will print all systems and elements of systems
 * protect conversion functions from overflow when too large result is to be produced
 * add configuration file in /etc which should contain:
  	- currency table (updated from the internet on request)
-	- default unit system for interwoven systems ( imperial and us customary system for example)
-* add info messages when conversion has some quack to it (e.g. unit value is not exact or approximation)
+	- default unit_t system for interwoven systems ( imperial and us customary system for example)
+* add info messages when conversion has some quack to it (e.g. unit_t value is not exact or approximation)
 * add -s main option - to suppress info messages
 * do derived units of measurement conversion (e.g km/s to mi/h) 
 

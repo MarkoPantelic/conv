@@ -27,7 +27,8 @@ void print_usage()
 	       "\t-o, --output\t\n" \
 	       "\t-p, --precision\t\n" \
 	       "\t-v, --verbose\t\n" \
-	       "\t-n, --value\t\n" ); 
+	       "\t-n, --value\t\n" \
+	       "\t-l, --printlist\t\n"); 
 }
 
 
@@ -37,7 +38,7 @@ int main(int argc, char* argv[])
 
 	int i, verbose;
 	char short_opt, valtmp[1], *instr, *outstr, *val, *operand, *precision; 
-	unit *in, *out, **all_units;
+	unit_t *in, *out, **all_units;
 
 	valtmp[0] = '\0';
 	val = valtmp;
@@ -50,10 +51,10 @@ int main(int argc, char* argv[])
 	}
 
 	/* marg setup */
-	char shopt[] = {'h', 'v', 'i', 'o', 'p', 'n'};
-	char *longopt[] = {"help", "verbose", "input", "output", "precision", "value"};
-	short int has_operand[] = {0, 0, 1, 1, 1, 1};
-	size_t n_opt = 6;
+	char shopt[] = {'h', 'v', 'i', 'o', 'p', 'n', 'l'};
+	char *longopt[] = {"help", "verbose", "input", "output", "precision", "value", "printlist"};
+	short int has_operand[] = {0, 0, 1, 1, 1, 1, 0};
+	size_t n_opt = 7;
 	
 	margstructs options = margcreate("conv", argc, argv, n_opt, shopt, longopt, has_operand);
 
@@ -61,17 +62,12 @@ int main(int argc, char* argv[])
 	/* TEMPORARY SOLUTION !!! */
 	int au_len, imp_len, nsu_len;
 
-	unit **imperial_u = mkimperial(&imp_len);
-	unit **ns_u = mknsunits(&nsu_len);
+	unit_t **imperial_u = mkimperial(&imp_len);
+	unit_t **ns_u = mknsunits(&nsu_len);
 
 	au_len = imp_len + nsu_len;
 	all_units = unite_unit_lists(imperial_u, imp_len, ns_u, nsu_len);
 	
-	/* DEBUG */
-	printf("first_unit -> %s\n", all_units[0]->fullname);
-	printf("last_unit -> %s\n", all_units[au_len-1]->fullname);
-
-		
 
 	/* loop through options */
 	for (i=0; i<n_opt; i++){ 
@@ -105,6 +101,10 @@ int main(int argc, char* argv[])
 			else if (short_opt == 'v'){
 				verbose = 1;
 			}
+			else if (short_opt == 'l'){
+				print_unit_list(all_units, au_len);
+				exit(EXIT_SUCCESS);
+			}
 			else if (short_opt == 'h'){
 			/* silently ignore this option if it isn't the only one given */
 				if (argc == 2){
@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
 	}
 	
 	/* DEBUG */
-	printf("all options parsed\n");
+	/*printf("all options parsed\n"); */
 
 	if (in == NULL){
 		fprintf(stderr, "'input' argument '%s' invalid\n", instr);

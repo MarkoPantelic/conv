@@ -18,7 +18,7 @@ extern int OCT_ID;
 extern int DEC_ID;
 extern int HEX_ID;
 
-unit **mknsunits(int *ns_len);
+unit_t **mknsunits(int *ns_len);
 
 char *sbin_to_shex(const char *num_str, char repr);
 char *sbin_to_soct(const char *num_str);
