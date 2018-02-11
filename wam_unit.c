@@ -9,8 +9,8 @@
 
 
 /* TODO: pass alternative names and alternative symbol strings*/
-/* allocate space for wam unit_t struct and assign to it's members passed values */
-unit_t *mkunit(int id, int cls, int sys, char *fn, char *sym, int sbuid, 
+/* allocate space for unit_t struct and assign to it's members passed values */
+unit_t *mkunit(int id, int qnt, int sys, char *fn, char *sym, int sbuid, 
 	     double rtbu, double rtcsu, int csuid, int csys)
 {
 
@@ -18,7 +18,7 @@ unit_t *mkunit(int id, int cls, int sys, char *fn, char *sym, int sbuid,
 	
 	u->id = id;
 	u->system = sys;
-	u->class = cls;
+	u->quantity = qnt;
 
 	u->fullname = xmalloc(sizeof(char)*(strlen(fn)+1));
 	strcpy(u->fullname, fn);
@@ -31,49 +31,69 @@ unit_t *mkunit(int id, int cls, int sys, char *fn, char *sym, int sbuid,
 	u->rtcsu = rtcsu;
 	u->csuid = csuid;
 	u->csys = csys;
+	u->next = NULL;
 
 	return u;
 }
 
-
-/* search name member in wam unit_t */
-unit_t *search_units_by_name(char *name, unit_t **unit_list, int list_len)
+/* forward connect (connect to the head) to the linked list */
+void link_unit(unit_t **head, unit_t *new)
 {
-	int i;
+	new->next = *head;
+	*head = new;	
+}
 
-	for(i=0; i<list_len; i++){
+/* create unit and connect it to linked list */
+unit_t *nodeunit(int id, int qnt, int sys, char *fn, char *sym, int sbuid, 
+	     double rtbu, double rtcsu, int csuid, int csys, unit_t **head)
+{
+	unit_t *u = mkunit(id, qnt, sys, fn, sym, sbuid, rtbu, rtcsu, csuid,
+			   csys);
+	link_unit(head, u);
+	return u;
+}
+
+
+/* search name member in unit_t struct */
+unit_t *search_units_by_name(char *name, unit_t *node)
+{
+
+	while(node != NULL){
 		
-		if(strcmp(name, unit_list[i]->fullname) == 0)
-			return unit_list[i];
+		if(strcmp(name, node->fullname) == 0)
+			return node;
+
+		node = node->next;
 	}
 	
 	return NULL;
 }
 
-/* search symbol member in wam unit_t */
-unit_t *search_units_by_symbol(char *symbol, unit_t **unit_list, int list_len)
+/* search symbol member in unit_t struct */
+unit_t *search_units_by_symbol(char *symbol, unit_t *node)
 {
-	int i;
 
-	for(i=0; i<list_len; i++){
+	while(node != NULL){
 		
-		if(strcmp(symbol, unit_list[i]->symbol) == 0)
-			return unit_list[i];
+		if(strcmp(symbol, node->symbol) == 0)
+			return node;
+		
+		node = node->next;
 	}
 	
 	return NULL;
 }
 
 /* search in unit_t haystack for the needle */
-unit_t *search_for_unit(char *needle, unit_t **haystack, int haystack_len)
+unit_t *search_for_unit(char *needle, unit_t *node)
 {
 
-	unit_t *s = search_units_by_symbol(needle, haystack, haystack_len);
+	unit_t *s = search_units_by_symbol(needle, node);
 	
 	if(s != NULL)
 		return s;
 	
-	s = search_units_by_name(needle, haystack, haystack_len);
+	s = search_units_by_name(needle, node);
 	
 	return s;
 }
@@ -90,7 +110,7 @@ double convert_unit(double inval, unit_t *inunit, unit_t *outunit) {
 	printf("passed inunit -> %s, outunit -> %s\n", inunit->fullname, outunit->fullname); 
 	*/
 
-	if (inunit->class != outunit->class){
+	if (inunit->quantity != outunit->quantity){
 		return -1.0;
 	}
 
@@ -123,46 +143,23 @@ double convert_unit(double inval, unit_t *inunit, unit_t *outunit) {
 }
 
 
-/* unite all unit_t lists into one list */
-/* TEMPORARY SOLUTION !!! */
-unit_t **unite_unit_lists(unit_t **first, int first_len, unit_t **second, int second_len){
- 	
-	int i, j, total_len = first_len + second_len;
-
-	//unit_t **total_list = realloc(first, sizeof(unit_t*)*total_len);
-
-	
-	unit_t **total_list = xmalloc(sizeof(unit_t*)*total_len);
-
-	for(i=0; i<first_len; i++){
-		total_list[i] = first[i];	
-	}
-
-	for(j=0; j<second_len; j++){
-		total_list[i++] = second[j];
-	}
-	
-
-	/*
-	for(i=total_len-first_len, j=0; i<total_len; i++){
-		printf("copying in %d, from %d\n", i, j);
-		total_list[i] = second[j++];	
-	}
-
-	printf("finished uniting list\n");
-	printf("first member => %s\n", total_list[0]->fullname);
-	printf("last member => %s\n", total_list[total_len-1]->fullname);
-	*/
-
-	return total_list;
-}
-
-
-void print_unit_list(unit_t **list, int list_len)
+/* pretty print unit list */
+void print_unit_list(unit_t *node)
 {		
 	int i;
 
-	for(i=0; i<list_len; i++){
-		printf("%d - %s (%s)\n", list[i]->id, list[i]->fullname, list[i]->symbol);
+	/* print heading */
+	printf("\n%-18s %-15s %24s %-s\n", "system", "quantity", "unit", "symbol");
+	for(i=0; i<70; i++)
+		printf("=");
+
+	printf("\n");
+
+	while(node != NULL){
+		printf("%-18s %-15s --- %20s (%s)\n", SYSTEM_STR_LIST[node->system], 
+			QUANTITY_STR_LIST[node->quantity], node->fullname, node->symbol);
+		node = node->next;
 	}
+
+	printf("\n");
 }

@@ -4,6 +4,6 @@
 #include "wam_unit.h"
 
 
-unit_t **mkimperial(int *imp_len);
+unit_t *imperial_list(unit_t **tail);
 
 #endif /* _IMPERIAL_SYSTEM_H */

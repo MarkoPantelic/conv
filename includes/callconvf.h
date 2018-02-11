@@ -10,8 +10,8 @@
 
 void cprint(int verbose, const char *ct_str, char vtype, void *val);
 void callconvf(unit_t *in, unit_t *out, char *val, char *precision, int verbose);
-unit_t *in_process(char *opt_val, unit_t **all_units, int au_len);
-unit_t *out_process(char *opt_val, unit_t **all_units, int au_len);
+unit_t *in_process(char *opt_val, unit_t *head_node);
+unit_t *out_process(char *opt_val, unit_t *head_node);
 int chk_val(char *val, char input);
 
 

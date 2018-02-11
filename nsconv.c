@@ -30,6 +30,13 @@ const char BIN[] = "binary";
 const char OCT[] = "octal";
 const char HEX[] = "hexadecimal";
 
+//enum { BIN_ID, DEC_ID, OCT_ID, HEX_ID };
+int BIN_ID = 'b';
+int DEC_ID = 'd';
+int OCT_ID = 'o';
+int HEX_ID = 'h';
+
+
 
 /*
  * Allocate heap space for the string of length 'len'. 
@@ -100,8 +107,9 @@ static int _sx_to_dec(const char *num_str, int base)
 			dec += (c - 'a' + 10) * pm;
 		}
 		else {
-			fprintf(stderr, "error! _x_to_dec(): invalid member '%c' of a number string" \
-				"\"%s\" for the base of %d\n", c, num_str, base);
+			fprintf(stderr, "error! _x_to_dec(): invalid member '%c'"
+				" of a number string \"%s\" for the base of %d\n",
+				c, num_str, base);
 			exit(EXIT_FAILURE);
 		}
 		
@@ -120,7 +128,8 @@ char *sbin_to_shex(const char *bin_str, char repr)
 	else if (repr == 'u' || repr == 'U')
 		;
 	else{
-		fprintf(stderr, "invalid char argument '%c' given to sbin_to_shex(). Valid only 'l[L]' or 'u[U]'\n", repr);
+		fprintf(stderr, "invalid char argument '%c' given to " \
+			"sbin_to_shex(). Valid only 'l[L]' or 'u[U]'\n", repr);
 		exit(EXIT_FAILURE);
 	}
 
@@ -158,7 +167,8 @@ char *dec_to_shex(int dec, char repr)
 	else if (repr == 'u' || repr == 'U')
 		;
 	else{
-		fprintf(stderr, "invalid char argument '%c' given to dec_to_shex(). Valid only 'l[L]' or 'u[U]'\n", repr);
+		fprintf(stderr, "invalid char argument '%c' given to " \
+			"dec_to_shex(). Valid only 'l[L]' or 'u[U]'\n", repr);
 		exit(EXIT_FAILURE);
 	}
 
@@ -267,7 +277,8 @@ static char *dec_to_sbin(int num, int *width, char repr){
 	bin_str[i] = '\0';
 
 	if (repr == 'f')
-		return bin_str + hb1_pos; /* move the pointer to the first occurence of 1 from the start of the string*/
+	/* move pointer to the first occurence of 1 from the start of the string */
+		return bin_str + hb1_pos; 
 	else
 		return bin_str;
 }
@@ -289,7 +300,7 @@ char *sdec_to_sbin(const char *num_str, char repr)
 int shex_to_dec(const char *str_hex)
 {
 	char *cln_hex = ns_malloc(strlen(str_hex));
-	char *tofree = cln_hex; /* save original value because rm_hex_prfx can change it */
+	char *tofree = cln_hex; /* save original value. rm_hex_prfx can change it */
 	strcpy(cln_hex, str_hex);
 
 	cln_hex = rm_hex_prfx(cln_hex);
@@ -343,35 +354,27 @@ char *soct_to_shex(const char *str_oct, char repr)
 }
 
 
-//enum { BIN_ID, DEC_ID, OCT_ID, HEX_ID };
-int BIN_ID = 'b';
-int DEC_ID = 'd';
-int OCT_ID = 'o';
-int HEX_ID = 'h';
-
-
-/* create list and allocate space for number system units */
-unit_t **mknsunits(int *ns_len)
+/* create number system units and return them as linked list*/
+unit_t *ns_list(unit_t **tail)
 {
 
-	*ns_len = 4;
-	unit_t **ns = xmalloc ( sizeof(unit_t*) * (*ns_len) );
+	unit_t *head = NULL;
 
 
-	/* set number system units
-	 * ----------------------- */
 	/* binary */
-	ns[0] = mkunit(BIN_ID, C_NUMBER, NUMBER_SYS, "binary", "bin", 
-		DEC_ID, -1, -1, -1, -1);
+	*tail =
+	nodeunit(BIN_ID, Q_NUMBER, NUMBER_SYS, "binary", "bin", DEC_ID, -1, -1,
+		 -1, -1, &head);
 	/* octal */
-	ns[1] = mkunit(OCT_ID, C_NUMBER, NUMBER_SYS, "octal", "oct", 
-		DEC_ID, -1, -1, -1, -1);
+	nodeunit(OCT_ID, Q_NUMBER, NUMBER_SYS, "octal", "oct", DEC_ID, -1, -1,
+		 -1, -1, &head);
 	/* decimal */
-	ns[2] = mkunit(DEC_ID, C_NUMBER, NUMBER_SYS, "decimal", "dec", 
-		DEC_ID, -1, -1, -1, -1);
+	nodeunit(DEC_ID, Q_NUMBER, NUMBER_SYS, "decimal", "dec", DEC_ID, -1, -1,
+		 -1, -1, &head);
 	/* hexadecimal */
-	ns[3] = mkunit(HEX_ID, C_NUMBER, NUMBER_SYS, "hexadecimal", "hex", 
-		DEC_ID, -1, -1, -1, -1);
+	nodeunit(HEX_ID, Q_NUMBER, NUMBER_SYS, "hexadecimal", "hex", DEC_ID, -1,
+		 -1, -1, -1, &head);
 
-	return ns;
+
+	return head;
 }

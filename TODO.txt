@@ -5,6 +5,7 @@ Unit tests:
 Overall:
 ========
 * insert option -e [systems, [imperial, si...]..] which will print all systems and elements of systems
+* enable program to receive value from stdin (from pipe)
 * protect conversion functions from overflow when too large result is to be produced
 * add configuration file in /etc which should contain:
  	- currency table (updated from the internet on request)
@@ -40,6 +41,13 @@ Insert conversions:
 	- megaparsec
 	- solar mass ...
 
+* Gaussian system of units
+	- erg
+	- dyne
+	- poise
+	- stokes
+	- oersted ...
+
 * non-standard units
 	- Knot (nautical)
 	- megaton
@@ -49,6 +57,12 @@ Insert conversions:
 	- cal
 	- J
 	- kiloton
+
+* Radioactivity units
+	- Curie
+	- becquerel
+	- sievert
+	- gray
 
 * Storage size
 	- b, kb, Mb, MB ...

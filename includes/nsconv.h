@@ -13,12 +13,9 @@ extern const char OCT[];
 extern const char DEC[];
 extern const char HEX[];
 
-extern int BIN_ID;
-extern int OCT_ID;
-extern int DEC_ID;
-extern int HEX_ID;
+extern const int BIN_ID, OCT_ID, DEC_ID, HEX_ID;
 
-unit_t **mknsunits(int *ns_len);
+unit_t *ns_list(unit_t **tail);
 
 char *sbin_to_shex(const char *num_str, char repr);
 char *sbin_to_soct(const char *num_str);

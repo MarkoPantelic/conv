@@ -26,4 +26,6 @@ float sfahr_to_kel(const char *sfahr);
 float skel_to_cel(const char *skel);
 float skel_to_fahr(const char *skel);
 
+unit_t *temperature_list(unit_t **tail);
+
 #endif /* _TEMPCONV_H */

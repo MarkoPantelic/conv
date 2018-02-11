@@ -14,6 +14,7 @@
 #include "wam_unit.h"
 #include "imperial_system.h"
 #include "nsconv.h"
+#include "tempconv.h"
 
 
 void print_usage()
@@ -38,7 +39,7 @@ int main(int argc, char* argv[])
 
 	int i, verbose;
 	char short_opt, valtmp[1], *instr, *outstr, *val, *operand, *precision; 
-	unit_t *in, *out, **all_units;
+	unit_t *in, *out, *list_head = NULL, *list_tail = NULL;
 
 	valtmp[0] = '\0';
 	val = valtmp;
@@ -58,15 +59,11 @@ int main(int argc, char* argv[])
 	
 	margstructs options = margcreate("conv", argc, argv, n_opt, shopt, longopt, has_operand);
 
-	/* create list of all units */
-	/* TEMPORARY SOLUTION !!! */
-	int au_len, imp_len, nsu_len;
+	/* list of all units (connect linked lists) */
+	list_head = imperial_list(&list_tail);
+	list_tail->next = ns_list(&list_tail);
+	list_tail->next = temperature_list(&list_tail);
 
-	unit_t **imperial_u = mkimperial(&imp_len);
-	unit_t **ns_u = mknsunits(&nsu_len);
-
-	au_len = imp_len + nsu_len;
-	all_units = unite_unit_lists(imperial_u, imp_len, ns_u, nsu_len);
 	
 
 	/* loop through options */
@@ -86,11 +83,11 @@ int main(int argc, char* argv[])
 	
 			if (short_opt == 'i'){
 				instr = operand;
-				in = in_process(instr, all_units, au_len);
+				in = in_process(instr, list_head);
 			}
 			else if (short_opt == 'o'){
 				outstr = operand;
-				out = out_process(outstr, all_units, au_len);
+				out = out_process(outstr, list_head);
 			}
 			else if (short_opt == 'n'){
 				val = operand;
@@ -102,7 +99,7 @@ int main(int argc, char* argv[])
 				verbose = 1;
 			}
 			else if (short_opt == 'l'){
-				print_unit_list(all_units, au_len);
+				print_unit_list(list_head);
 				exit(EXIT_SUCCESS);
 			}
 			else if (short_opt == 'h'){

@@ -11,7 +11,7 @@
 #include "nsconv.h"
 #include "tempconv.h"
 #include "chk_inval.h"
-#include "measureconv.h"
+#include "weights.h"
 #include "wam_unit.h" /* definitions for weight and measure unit_t struct and functions that operate on it */
 #include "global_def.h"
 
@@ -260,57 +260,11 @@ void callconvf(unit_t *inunit, unit_t *outunit, char *val, char *precision, int 
  * Check if values passed to argument 'input' are valid
  * Return first char from string opt_val
  */
-unit_t *in_process(char *opt_val, unit_t **all_units, int au_len)
+unit_t *in_process(char *opt_val, unit_t *head_node)
 {
 	unit_t *in = NULL;
-	/*
-	const char *lval_list[] = {BIN, DEC, OCT, HEX, KELVIN, FAHRENHEIT, CELSIUS, OUNCE, GRAM};
-	const char *rc_list = "bdohkfcug";
-	int i, lval_size = 9; 
-	int len = strlen(opt_val);
-	char fch = opt_val[0]; // opt_val is minimum strlen=1. That is guaranteed by marg	
 
-
-	for (i=0; i<lval_size; i++){
-		
-		// compare whole string
-		if (len > 1 && strcmp(opt_val, lval_list[i]) == 0){
-			return rc_list[i]; 
-		} 
-		// compare 3 char shortcuts
-		if (len == 3 && strncmp(opt_val, lval_list[i], 3) == 0){
-			return rc_list[i];
-		}
-		// compare 1 char
-		if ( len == 1 && fch == rc_list[i] ){
-			
-			switch(fch){
-
-				case 'b': 
-					return 'b';
-				case 'd':
-					return 'd';
-				case 'o':
-					return 'o';
-				case 'h':
-					return 'h';
-				case 'f':
-					return 'f';
-				case 'c':
-					return 'c';
-				case 'k':
-					return 'k';
-				case 'u':
-					return 'u';
-				case 'g':
-					return 'g';
-			}
-		}
-
-		
-	}
-	*/
-	in = search_for_unit(opt_val, all_units, au_len);
+	in = search_for_unit(opt_val, head_node);
 	
 	return in;
 	
@@ -318,9 +272,9 @@ unit_t *in_process(char *opt_val, unit_t **all_units, int au_len)
 
 
 /* Currently same as for in_process() */
-unit_t *out_process(char *opt_val, unit_t **all_units, int au_len)
+unit_t *out_process(char *opt_val, unit_t *head_node)
 {
-	return in_process(opt_val, all_units, au_len);
+	return in_process(opt_val, head_node);
 }
 
 

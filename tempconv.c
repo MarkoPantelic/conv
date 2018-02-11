@@ -15,9 +15,7 @@ const char CELSIUS[] = "celsius";
 const char FAHRENHEIT[] = "fahrenheit";
 
 
-/* 
- * Convert Celsius temperature value to Fahrenheit temperature value 
- */
+/*  Convert Celsius temperature value to Fahrenheit temperature value */
 float cel_to_fahr(float cel)
 {
 	return (9 * cel)/5 + 32; 
@@ -110,24 +108,23 @@ int CELSIUS_ID = 'c';
 
 
 /* create list and allocate space for temperature units */
-unit_t **mktemperature_units(int *t_len)
+unit_t *temperature_list(unit_t **tail)
 {
 
-	*t_len = 3;
-	unit_t **t = xmalloc ( sizeof(unit_t*) * (*t_len) );
-
+	unit_t *head = NULL;
 
 	/* set temperature system units
 	 * ----------------------- */
 	/* kelvin */
-	t[0] = mkunit(KELVIN_ID, C_TEMP, TEMPERATURE, "kelvin", "k", 
-		CELSIUS_ID, -1, -1, -1, -1);
+	*tail =
+	nodeunit(KELVIN_ID, Q_TEMPERATURE, TEMPERATURE, "kelvin", "k", CELSIUS_ID, -1,
+			 -1, -1, -1, &head);
 	/* fahrenheit */
-	t[1] = mkunit(FAHRENHEIT_ID, C_TEMP, TEMPERATURE, "fahrenheit", "f", 
-		CELSIUS_ID, -1, -1, -1, -1);
+	nodeunit(FAHRENHEIT_ID, Q_TEMPERATURE, TEMPERATURE, "fahrenheit", "f", 
+			CELSIUS_ID, -1, -1, -1, -1, &head);
 	/* celsius */
-	t[2] = mkunit(CELSIUS_ID, C_TEMP, TEMPERATURE, "celsius", "c", 
-		CELSIUS_ID, -1, -1, -1, -1);
+	nodeunit(CELSIUS_ID, Q_TEMPERATURE, TEMPERATURE, "celsius", "c", CELSIUS_ID,
+		 	-1, -1, -1, -1, &head);
 
-	return t;
+	return head;
 }

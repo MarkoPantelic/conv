@@ -14,8 +14,8 @@
  * 	-  string value to check
  * Return: 1 if value is valid -1 otherwise
  */
-static int _chk( int (*f)(char), const char *val){
-	
+static int _chk( int (*f)(char), const char *val)
+{	
 	char c;
 	int i, len = strlen(val);
 
@@ -38,7 +38,8 @@ static int _chk( int (*f)(char), const char *val){
 static inline int ishexchar(char c)
 {
 
-	if ( (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f') ){
+	if ( (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || 
+	     (c >= 'a' && c <= 'f') ){
  		return 1;
 	}
 
@@ -100,7 +101,8 @@ int hex_prfx_chk(const char *hex_str)
 }
 
 
-static inline int _chkoct(char c){
+static inline int _chkoct(char c)
+{
 	if (c < '0' || c > '8')
 		return -1;
 	return 1;
@@ -116,25 +118,29 @@ static inline int _chkhex(char c){
 }
 */
 
-static inline int _chkdec(char c){
+static inline int _chkdec(char c)
+{
 	if (c < '0' || c > '9')
 		return -1;
 	return 1;
 }
 
 
-static inline int _chkbin(char c){
+static inline int _chkbin(char c)
+{
 	if (c < '0' || c > '1')
 		return -1;
 	return 1;
 }
 
 
-int chksoct(const char *val){
+int chksoct(const char *val)
+{
 	return _chk(_chkoct, val);
 }
 
-int chkshex(const char *val){
+int chkshex(const char *val)
+{
 
 	int prfx_len = hex_prfx_chk(val);
 
@@ -145,14 +151,17 @@ int chkshex(const char *val){
 	return _chk(ishexchar, val+prfx_len);
 }
 
-int chksdec(const char *val){
+int chksdec(const char *val)
+{
 	return _chk(_chkdec, val);
 }
 
-int chksbin(const char *val){
+int chksbin(const char *val)
+{
 	return _chk(_chkbin, val);
 }
 
-int chksfloat(const char *val){
+int chksfloat(const char *val)
+{
 	return 1;
 }
