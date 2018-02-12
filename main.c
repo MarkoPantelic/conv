@@ -13,8 +13,10 @@
 #include "callconvf.h"
 #include "wam_unit.h"
 #include "imperial_system.h"
+#include "si_system.h"
 #include "nsconv.h"
 #include "tempconv.h"
+
 
 
 void print_usage()
@@ -63,6 +65,7 @@ int main(int argc, char* argv[])
 	list_head = imperial_list(&list_tail);
 	list_tail->next = ns_list(&list_tail);
 	list_tail->next = temperature_list(&list_tail);
+	list_tail->next = si_system_list(&list_tail);
 
 	
 

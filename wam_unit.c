@@ -123,7 +123,16 @@ double convert_unit(double inval, unit_t *inunit, unit_t *outunit) {
 			exit(EXIT_FAILURE);
 		}
 	}
-	/* first convert to common system and then to outunit system */
+	/* if inunit common system is outunit system */
+	else if (inunit->csys == outunit->system){
+		conv_val = inval * inunit->rtcsu;
+	}
+
+	/* if inunit system is outunit common system*/
+	else if (inunit->system == outunit->csys){
+		conv_val = inval / outunit->rtcsu;
+	}
+	/* first convert to common system and then to outunit system. NOT TESTED !!!*/
 	else if (inunit->csys == outunit->csys){
 
 		if (inunit->csuid == outunit->csuid){

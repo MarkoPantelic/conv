@@ -235,6 +235,7 @@ void callconvf(unit_t *inunit, unit_t *outunit, char *val, char *precision, int 
 			break;
 		/* end case TEMPERATURE */
 	
+		case SI_SYSTEM:
 		case IMPERIAL_SYS:
 
 			if(1){

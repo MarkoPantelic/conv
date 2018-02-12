@@ -5,6 +5,11 @@
  * =====================================
  */
 
+/* TODO:
+ * temperature scales:
+ * Rankine, Roemer, Newton, Delisle, Reaumur
+ */
+
 
 #include <stdlib.h>
 #include "global_def.h"
@@ -117,13 +122,13 @@ unit_t *temperature_list(unit_t **tail)
 	 * ----------------------- */
 	/* kelvin */
 	*tail =
-	nodeunit(KELVIN_ID, Q_TEMPERATURE, TEMPERATURE, "kelvin", "k", CELSIUS_ID, -1,
+	nodeunit(KELVIN_ID, Q_TEMPERATURE, TEMPERATURE, "kelvin", "K", CELSIUS_ID, -1,
 			 -1, -1, -1, &head);
 	/* fahrenheit */
-	nodeunit(FAHRENHEIT_ID, Q_TEMPERATURE, TEMPERATURE, "fahrenheit", "f", 
+	nodeunit(FAHRENHEIT_ID, Q_TEMPERATURE, TEMPERATURE, "fahrenheit", "F", 
 			CELSIUS_ID, -1, -1, -1, -1, &head);
 	/* celsius */
-	nodeunit(CELSIUS_ID, Q_TEMPERATURE, TEMPERATURE, "celsius", "c", CELSIUS_ID,
+	nodeunit(CELSIUS_ID, Q_TEMPERATURE, TEMPERATURE, "celsius", "C", CELSIUS_ID,
 		 	-1, -1, -1, -1, &head);
 
 	return head;

@@ -12,10 +12,14 @@
 /* define quantity id's */
 #define Q_WEIGHT 1
 #define Q_LENGTH 2
-#define Q_AREA 3
-#define Q_VOLUME 4
-#define Q_NUMBER 5
-#define Q_TEMPERATURE 6
+#define Q_TIME 3
+#define Q_EL_CURRENT 4
+#define Q_SUBSTANCE_A 5
+#define Q_AREA 6
+#define Q_VOLUME 7
+#define Q_NUMBER 8
+#define Q_TEMPERATURE 9
+#define Q_LUMINOUS_I 10
 
 /* to be moved to other_units.h or non_si_compat.h */ 
 #define LITER_OU_ID 1
