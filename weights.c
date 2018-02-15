@@ -1,7 +1,8 @@
 /*============================================
- *		    measureconv
+ *		    weights.c
  *	Conversions between different weights 
  *	and measure units
+ *	NOT FINISHED, WORK IN PROGRESS
  *============================================*/
 
 
@@ -15,6 +16,7 @@ const char OUNCE[] = "ounce";
 const char GRAM[] = "gram";
 
 /* TODO: create unit lists for all weights systems */
+/* Change 'weight' terminology to 'mass'?? */
 
 
 /*  AVOIRDUPOIS, now used in imperial and US customary system */
@@ -98,7 +100,7 @@ float sgtoounce(const char *strgram, char variant)
 
 /* LIST NOT FINISHED !!! */
 /* troy */
-int GRAIN_T_ID = 1, POUND_T_ID = 2, TROY_WEIGHTS = 7;
+int GRAIN_T_ID = 1, POUND_T_ID = 2, TROY_MASS = 7;
 
 /* create imperial units and return them as linked list */
 unit_t *weights_list(unit_t **tail){
@@ -110,7 +112,7 @@ unit_t *weights_list(unit_t **tail){
 	 * ------------------------- */
 	/* grain */
 	*tail =
-	nodeunit(GRAIN_T_ID, Q_WEIGHT, TROY_WEIGHTS, "grain", "gr", POUND_T_ID,
+	nodeunit(GRAIN_T_ID, Q_MASS, TROY_MASS, "grain", "gr", POUND_T_ID,
 			0, 0, G_SI_ID, SI_SYSTEM, &head);
 	/* dram */   
 	/* ounce */

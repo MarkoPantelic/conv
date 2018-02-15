@@ -28,7 +28,7 @@
 			 */
 
 
-enum {GRAIN_I_ID, DRAM_I_ID, OUNCE_I_ID, POUND_I_ID, STONE_I_ID, QUARTER_I_ID, 
+enum {GRAIN_I_ID=1, DRAM_I_ID, OUNCE_I_ID, POUND_I_ID, STONE_I_ID, QUARTER_I_ID, 
       HWEIGHT_I_ID, TON_I_ID, SLUG_I_ID, THOU_I_ID, INCH_I_ID, FOOT_I_ID, 
       YARD_I_ID, CHAIN_I_ID, FURLONG_I_ID, MILE_I_ID, LEAGUE_I_ID, FATHOM_I_ID, 
       CABLE_I_ID, NAUTICAL_MI_I_ID, LINK_I_ID, ROD_I_ID, PERCH_I_ID, ROOD_I_ID, 
@@ -45,38 +45,38 @@ unit_t *imperial_list(unit_t **tail){
 	unit_t *head = NULL;
 
 
-	/* set imperial weight units
+	/* set imperial mass units
 	 * ------------------------- */
 	/* grain */
 	*tail =
-	nodeunit(GRAIN_I_ID, Q_WEIGHT, IMPERIAL_SYS, "grain", "gr", POUND_I_ID,
+	nodeunit(GRAIN_I_ID, Q_MASS, IMPERIAL_SYS, "grain", "gr", POUND_I_ID,
 			1.0/7000, 0.06479891, G_SI_ID, SI_SYSTEM, &head);
 	/* dram */   
-	nodeunit(DRAM_I_ID, Q_WEIGHT, IMPERIAL_SYS, "dram", "dr", POUND_I_ID,
+	nodeunit(DRAM_I_ID, Q_MASS, IMPERIAL_SYS, "dram", "dr", POUND_I_ID,
 			1.0/256, 1.7718451953125, G_SI_ID, SI_SYSTEM, &head);
 	/* ounce */
-	nodeunit(OUNCE_I_ID, Q_WEIGHT, IMPERIAL_SYS, "ounce", "oz",
+	nodeunit(OUNCE_I_ID, Q_MASS, IMPERIAL_SYS, "ounce", "oz",
 			POUND_I_ID, 1.0/16, 28.349523125, G_SI_ID, SI_SYSTEM,
 			&head);
 	/* pound */
-	nodeunit(POUND_I_ID, Q_WEIGHT, IMPERIAL_SYS, "pound", "lb",
-			POUND_I_ID, 1, 0.45359237, KG_SI_ID, SI_SYSTEM, &head);
+	nodeunit(POUND_I_ID, Q_MASS, IMPERIAL_SYS, "pound", "lb",
+			POUND_I_ID, 1, 453.59237, G_SI_ID, SI_SYSTEM, &head);
 	/* stone */
-	nodeunit(STONE_I_ID, Q_WEIGHT, IMPERIAL_SYS, "stone", "st",
-			POUND_I_ID, 14, 6.35029318, KG_SI_ID, SI_SYSTEM, &head);
+	nodeunit(STONE_I_ID, Q_MASS, IMPERIAL_SYS, "stone", "st",
+			POUND_I_ID, 14, 6350.29318, G_SI_ID, SI_SYSTEM, &head);
 	/* long quarter */
-	nodeunit(QUARTER_I_ID, Q_WEIGHT, IMPERIAL_SYS, "quarter", "qr", 
-			POUND_I_ID, 28, 12.70058636, KG_SI_ID, SI_SYSTEM, &head); 
+	nodeunit(QUARTER_I_ID, Q_MASS, IMPERIAL_SYS, "quarter", "qr", 
+			POUND_I_ID, 28, 12700.58636, G_SI_ID, SI_SYSTEM, &head); 
 	/* long hunderdweight */
-	nodeunit(HWEIGHT_I_ID, Q_WEIGHT, IMPERIAL_SYS, "hundredweight", "cwt",
-			POUND_I_ID, 112, 50.80234544, KG_SI_ID, SI_SYSTEM, 
+	nodeunit(HWEIGHT_I_ID, Q_MASS, IMPERIAL_SYS, "hundredweight", "cwt",
+			POUND_I_ID, 112, 50802.34544, G_SI_ID, SI_SYSTEM, 
 			&head); 
 	/* long ton */
-	nodeunit(TON_I_ID, Q_WEIGHT, IMPERIAL_SYS, "ton", "t", POUND_I_ID,
-			2240, 1016.0469088, KG_SI_ID, SI_SYSTEM, &head);
+	nodeunit(TON_I_ID, Q_MASS, IMPERIAL_SYS, "ton", "t", POUND_I_ID,
+			2240, 1016046.9088, G_SI_ID, SI_SYSTEM, &head);
 	/* slug (slug SI value is not exact (it's ~)) */
-	nodeunit(SLUG_I_ID, Q_WEIGHT, IMPERIAL_SYS, "slug", "slug", POUND_I_ID, 
-			32.17404856 , 14.59390294, KG_SI_ID, SI_SYSTEM, &head);
+	nodeunit(SLUG_I_ID, Q_MASS, IMPERIAL_SYS, "slug", "slug", POUND_I_ID, 
+			32.17404856 , 14593.90294, G_SI_ID, SI_SYSTEM, &head);
 
 
 	/* set imperial length units

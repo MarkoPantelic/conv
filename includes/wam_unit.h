@@ -1,24 +1,38 @@
 #ifndef _WAM_UNIT_H
 #define _WAM_UNIT_H
 
+/* prefix_t implemented for use in a linked list */
+typedef struct prefix_t {
+	int id;
+	char *name;
+	int name_len;
+	char *symbol;
+	int symbol_len;
+	int pow_factor;
+	struct prefix_t *next;
+} prefix_t;
+
+
 /* unit_t implemented for use in a linked list */
 typedef struct unit_t {
-	int id; 		/* unique id in a system */
-	int system; 		/* e.g. imperial or SI */
+	int id; 		/* unique id for unit in a system */
+	int system; 		/* system id e.g. imperial or SI */
 	int quantity; 		/* quantity id for e.g. mass or length */
-	char *fullname; 	/* e.g. "inch" */
+	char *name; 	/* e.g. "inch" */
 	char *symbol; 		/* unit symbol e.g. "in" for inch */
-	int sys_base_unit_id; 	/* e.g. id for feet in imperial system*/
-	double rtbu; 		/* ratio of this unit to base unit */
-	double rtcsu; 		/* this unit_t ratio to common unit */
+	int sbuid; 		/* sytem base unit id e.g 3 for "foot" */
+	double rtbu; 		/* ratio of this unit to it's system base unit */
+	prefix_t *prefix_list;	/* pointer to prefix linked list */
 	int csuid; 		/* id of common unit for ratio in 'rtcsu' */
 	int csys; 		/* common system */
-	struct unit_t *next; 		/* next node in linked list */
+	double rtcsu; 		/* this unit ratio to common unit */
+	struct unit_t *next; 	/* next node in linked list */
 } unit_t;
 
 
 unit_t *mkunit(int id, int qnt, int sys, char *fn, char *sym, int sbuid, 
-	       double rtbu, double rtcsu, int csuid, int csys);
+	       double rtbu, prefix_t *prfx_list, double rtcsu, int csuid,
+	       int csys);
 void link_unit(unit_t **head, unit_t *new);
 unit_t *nodeunit(int id, int qnt, int sys, char *fn, char *sym, int sbuid, 
 	     double rtbu, double rtcsu, int csuid, int csys, unit_t **head);

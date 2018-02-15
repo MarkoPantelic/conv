@@ -10,7 +10,7 @@
 #define OTHER_UNITS 5
 
 /* define quantity id's */
-#define Q_WEIGHT 1
+#define Q_MASS 1
 #define Q_LENGTH 2
 #define Q_TIME 3
 #define Q_EL_CURRENT 4
