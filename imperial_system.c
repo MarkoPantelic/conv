@@ -7,9 +7,10 @@
  */
 
 #include <stdlib.h>
-#include "wam_unit.h"
+#include "unit.h"
 #include "global_def.h"
 #include "si_system.h" /* for SI system id constants */
+#include "non_si_compat.h" /* for liter and hectare id constants */
 
 
 
@@ -130,34 +131,34 @@ unit_t *imperial_list(unit_t **tail){
 	 * ----------------------- */
 	/* perch (also known as square rod, square perch, square pole)*/
 	nodeunit(PERCH_I_ID, Q_AREA, IMPERIAL_SYS, "perch", "perch",
-			PERCH_I_ID, 1, 0.002529, HECTAR_SI_ID, SI_SYSTEM, &head); 
+			PERCH_I_ID, 1, 0.002529, HECTARE_ID, NON_SI_COMPAT, &head); 
 	/* rood */
 	nodeunit(ROOD_I_ID, Q_AREA, IMPERIAL_SYS, "rood", "rood", PERCH_I_ID,
-			40, 0.1012, HECTAR_SI_ID, SI_SYSTEM, &head);
+			40, 0.1012, HECTARE_ID, NON_SI_COMPAT, &head);
 	/* acre */
 	nodeunit(ACRE_I_ID, Q_AREA, IMPERIAL_SYS, "acre", "acre", PERCH_I_ID,
-			160, 0.4047, HECTAR_SI_ID, SI_SYSTEM, &head);
+			160, 0.4047, HECTARE_ID, NON_SI_COMPAT, &head);
 
 
 	/* set imperial volume units
 	 * ------------------------- */
 	/* fluid ounce */
 	nodeunit(FLUID_OZ_I_ID, Q_VOLUME, IMPERIAL_SYS, "fluid ounce",
-			"fl oz", OUNCE_I_ID, 1, 0.0284130625, LITER_OU_ID, 
-			OTHER_UNITS, &head);
+			"fl oz", OUNCE_I_ID, 1, 0.0284130625, LITER_ID, 
+			NON_SI_COMPAT, &head);
 	/* gill */
 	nodeunit(GILL_I_ID, Q_VOLUME, IMPERIAL_SYS, "gill", "gi", OUNCE_I_ID,
-			5, 0.1420653125, LITER_OU_ID, OTHER_UNITS, &head);
+			5, 0.1420653125, LITER_ID, NON_SI_COMPAT, &head);
 	/* pint */
 	nodeunit(PINT_I_ID, Q_VOLUME, IMPERIAL_SYS, "pint", "pt", OUNCE_I_ID,
-			20, 0.56826125, LITER_OU_ID, OTHER_UNITS, &head);
+			20, 0.56826125, LITER_ID, NON_SI_COMPAT, &head);
 	/* quart */
 	nodeunit(QUART_I_ID, Q_VOLUME, IMPERIAL_SYS, "quart", "qt", 
-			OUNCE_I_ID, 40, 1.1365225, LITER_OU_ID, OTHER_UNITS, 
+			OUNCE_I_ID, 40, 1.1365225, LITER_ID, NON_SI_COMPAT, 
 			&head);
 	/* gallon */
 	nodeunit(GALLON_I_ID, Q_VOLUME, IMPERIAL_SYS, "gallon", "gal",
-			OUNCE_I_ID, 160, 4.54609, LITER_OU_ID, OTHER_UNITS, 
+			OUNCE_I_ID, 160, 4.54609, LITER_ID, NON_SI_COMPAT, 
 			&head);
 
 

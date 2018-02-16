@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include "marg.h"
 #include "callconvf.h"
-#include "wam_unit.h"
+#include "unit.h"
 #include "imperial_system.h"
 #include "si_system.h"
 #include "nsconv.h"
@@ -61,11 +61,15 @@ int main(int argc, char* argv[])
 	
 	margstructs options = margcreate("conv", argc, argv, n_opt, shopt, longopt, has_operand);
 
+	/* create si prefix list */
+	prefix_t *si_prfxlst = si_prefix_list();
+
 	/* list of all units (connect linked lists) */
 	list_head = imperial_list(&list_tail);
 	list_tail->next = ns_list(&list_tail);
 	list_tail->next = temperature_list(&list_tail);
-	list_tail->next = si_system_list(&list_tail);
+	list_tail->next = si_system_list(&list_tail, si_prfxlst);
+	list_tail->next = si_compat_list(&list_tail, si_prfxlst);
 
 	
 
@@ -137,7 +141,7 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if (chk_val(val, 'q') == -1){
+	if (chk_val(val, in->system, in->id) == -1){
 		fprintf(stderr, "invalid input value \"%s\"\n", val);
 		exit(EXIT_FAILURE);
 

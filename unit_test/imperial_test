@@ -1,0 +1,17 @@
+
+function unit_test_ouncetog
+{
+	local val=( 8.44 20 34 599 15000);
+	local e_val=( 239.27 566.9905 963.8838 16981.36 425242.8);
+
+	test_multiple "ounce to gram" ounce gram 7 val[@] e_val[@]
+}
+
+
+function unit_test_gtoounce
+{
+	local val=( 8.44 20 34 599 15000);
+	local e_val=( 0.2977122 0.7054792 1.199315 21.1291 529.1094);
+
+	test_multiple "gram to ounce" gram ounce 7 val[@] e_val[@]
+}

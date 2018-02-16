@@ -6,7 +6,13 @@
 
 Conv converts input value to desired output value
 
-Usage: conv [OPTION]... -i input_type -o desired_output_type [VALUE]...
+Usage: conv [OPTION]... -i input_type -o desired_output_type [VALUE]
+
+options:
+	-h	--help
+	-l	--printlist
+	-p	--precision
+	-v	--verbose
 
 
 Supported conversions:
@@ -21,6 +27,13 @@ Supported conversions:
 	* Octal
 	* Hexadecimal 
 
+
+	Systems of units of measurement:
+	--------------------------------
+
+	* Imperial system
+	* SI system
+
 	
 	Temperature:
 	------------
@@ -29,9 +42,3 @@ Supported conversions:
 	* Kelvin
 	* Fahrenheit
 	
-	
-	Measure:
-	--------
-
-	* Ounce to gram
-

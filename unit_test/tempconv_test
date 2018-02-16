@@ -1,0 +1,58 @@
+# celsius input
+# -------------
+
+function unit_test_ctok
+{
+	local val=( 0 100 455 1000 123331 );
+	local e_val=( 273.15 373.15 728.15 1273.15 123604.15 );
+
+	test_multiple "celsius to kelvin" C K 2 val[@] e_val[@]
+}
+
+function unit_test_ctof
+{
+	local val=( 0 20 34 599 15000 );
+	local e_val=( 32.00 68.00 93.20 1110.20 27032.00 );
+
+	test_multiple "celsius to fahrenheit" C F 2 val[@] e_val[@]
+}
+
+
+# kelvin input
+# ------------
+
+function unit_test_ktoc
+{
+	local val=( 0 100 455 1000 123331 );
+	local e_val=( -273.15 -173.15 181.85 726.85 123057.85 );
+
+	test_multiple "kelvin to celsius" K C 2 val[@] e_val[@]
+}
+
+function unit_test_ktof
+{
+	local val=( 0 100 455 1000 123331 );
+	local e_val=( -459.67 -279.67 359.33 1340.33 221536.12 );
+
+	test_multiple "kelvin to fahrenheit" K F 2 val[@] e_val[@]
+}
+
+
+# fahrenheit input
+# ----------------
+
+function unit_test_ftoc
+{
+	local val=( 0 100 455 1000 123331 );
+	local e_val=( -17.78 37.78 235.00 537.78 68499.44 );
+
+	test_multiple "fahrenheit to celsius" F C 2 val[@] e_val[@]
+}
+
+function unit_test_ftok
+{
+	local val=( 0 100 455 1000 123331 );
+	local e_val=( 255.37 310.93 508.15 810.93 68772.59 );
+
+	test_multiple "fahrenheit to kelvin" F K 2 val[@] e_val[@]
+}

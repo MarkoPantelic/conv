@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include "weights.h"
 #include "global_def.h"
-#include "wam_unit.h"
+#include "unit.h"
 #include "si_system.h"
 
 const char OUNCE[] = "ounce";

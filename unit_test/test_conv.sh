@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 # ==================================== #
 # Script to test compiled conv program #
@@ -70,66 +70,12 @@ function test_multiple
 }
 
 
-function unit_test_dtb 
-{
-	local val=( 11 16 20 33 );
-	local e_val=( "1011" "10000" "10100" "100001" );
 
-	test_multiple "dec to bin" d b 2 val[@] e_val[@]
-}
+# import test functions from files
+. nsconv_test
+. imperial_test
+. tempconv_test
 
-
-function unit_test_dth 
-{	
-	local val=( 10 16 255 274 );
-	local e_val=( "A" "10" "FF" "112" );
-
-	test_multiple "dec to hex" d h 2 val[@] e_val[@]
-}
-
-
-function unit_test_dto 
-{
-	local val=( 9 17 20 67);
-	local e_val=( 11 21 24 103);
-
-	test_multiple "dec to oct" d o 2 val[@] e_val[@]
-}
-
-
-function unit_test_ctok
-{
-	local val=( 0 100 455 1000 123331);
-	local e_val=( 273.15 373.15 728.15 1273.15 123604.20);
-
-	test_multiple "celsius to kelvin" c k 2 val[@] e_val[@]
-}
-
-function unit_test_ctof
-{
-	local val=( 0 20 34 599 15000);
-	local e_val=( 32.00 68.00 93.20 1110.20 27032.00);
-
-	test_multiple "celsius to fahrenheit" c f 2 val[@] e_val[@]
-}
-
-
-function unit_test_ouncetog
-{
-	local val=( 8.44 20 34 599 15000);
-	local e_val=( 239.27 566.9905 963.8838 16981.36 425242.8);
-
-	test_multiple "ounce to gram" ounce gram 7 val[@] e_val[@]
-}
-
-
-function unit_test_gtoounce
-{
-	local val=( 8.44 20 34 599 15000);
-	local e_val=( 0.2977122 0.7054792 1.199315 21.1291 529.1094);
-
-	test_multiple "gram to ounce" gram ounce 7 val[@] e_val[@]
-}
 
 
 echo 'starting `conv` test...';

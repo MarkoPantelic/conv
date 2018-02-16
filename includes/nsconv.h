@@ -6,14 +6,15 @@
 #ifndef _NS_CONV_H
 #define _NS_CONV_H
 
-#include "wam_unit.h"
+#include "unit.h"
 
 extern const char BIN[];
 extern const char OCT[];
 extern const char DEC[];
 extern const char HEX[];
 
-extern const int BIN_ID, OCT_ID, DEC_ID, HEX_ID;
+//extern const int BIN_ID, OCT_ID, DEC_ID, HEX_ID;
+enum { BIN_ID, DEC_ID, OCT_ID, HEX_ID };
 
 unit_t *ns_list(unit_t **tail);
 
@@ -21,7 +22,7 @@ char *sbin_to_shex(const char *num_str, char repr);
 char *sbin_to_soct(const char *num_str);
 int sbin_to_dec(const char *num_str);
 
-short *dec_to_binarr(const char *num_str, int *width, int *hb1_pos);
+short *dec_to_binarr(int num, int *bit_width, int *hb1_pos);
 char *dec_to_shex(int dec, char repr);
 char *dec_to_soct(int dec);
 char *dec_to_sbin(int dec, int *width, char repr);

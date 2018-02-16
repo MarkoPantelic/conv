@@ -4,15 +4,16 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "wam_unit.h"
+#include "unit.h"
 #include "global_def.h"
 
 
-
 /* TODO: pass alternative names and alternative symbol strings*/
-/* allocate space for unit_t struct and assign to it's members passed values */
-unit_t *mkunit(int id, int qnt, int sys, char *name, char *sym, int sbuid, 
-	     double rtbu, prefix_t *prfx_lst, double rtcsu, int csuid, int csys)
+/* allocate space for unit_t struct and assign to all it's members passed values
+ * except for inner structs 'prefix' and 'cmp'.
+ */
+unit_t *mknode(int id, int qnt, int sys, char *name, char *sym, int sbuid, 
+	     double rtbu)
 {
 
 	unit_t *u = xmalloc( sizeof(unit_t) );
@@ -29,18 +30,36 @@ unit_t *mkunit(int id, int qnt, int sys, char *name, char *sym, int sbuid,
 	
 	u->sbuid = sbuid;
 	u->rtbu = rtbu;
-	u->prefix_list = prfx_lst;
-	u->csuid = csuid;
-	u->csys = csys;
-	u->rtcsu = rtcsu;
+
+	u->prefix_list = NULL;
+	u->cmp = NULL; 
+
 	u->next = NULL;
 
 	return u;
 }
 
 
+/* link prefix list to unit node */
+void linkprefix(unit_t *u, prefix_t *prefix_list)
+{
+	u->prefix_list = prefix_list;
+}
+
+
+/* add struct cmp_ratio_t to unit_t */
+void addcmprt(unit_t *u, int id, int system, double ratio)
+{
+	u->cmp = xmalloc( sizeof(cmp_ratio_t) );
+
+	u->cmp->id = id;
+	u->cmp->system = system;
+	u->cmp->ratio = ratio;
+}
+
+
 /* forward connect (connect to the head) to the linked list */
-void link_unit(unit_t **head, unit_t *new)
+void linkunit(unit_t **head, unit_t *new)
 {
 	new->next = (*head);
 	(*head) = new;	
@@ -48,12 +67,14 @@ void link_unit(unit_t **head, unit_t *new)
 
 
 /* create unit and connect it to linked list */
+/* example for creating and connecting one node (used in imperial_system.c) */
 unit_t *nodeunit(int id, int qnt, int sys, char *name, char *sym, int sbuid, 
 	     double rtbu, double rtcsu, int csuid, int csys, unit_t **head)
 {
-	unit_t *u = mkunit(id, qnt, sys, name, sym, sbuid, rtbu, NULL, rtcsu,
-			   csuid, csys);
-	link_unit(head, u);
+	unit_t *u = mknode(id, qnt, sys, name, sym, sbuid, rtbu);
+
+	addcmprt(u, csuid, csys, rtcsu);
+	linkunit(head, u);
 	return u;
 }
 
@@ -70,9 +91,10 @@ unit_t *prefixed_unit(unit_t *u, prefix_t *p)
 	o->quantity = u->quantity;
 	o->system = u->system;
 	o->sbuid = u->sbuid;
-	o->rtcsu = u->rtcsu;
-	o->csuid = u->csuid;
-	o->csys = u->csys;
+
+	/* point to original unit compare ratio struct */
+	o->cmp = u->cmp;
+	
 
 	o->name = xmalloc( sizeof(char) * (strlen(u->name) + p->name_len-1) );
 	strcpy(o->name, p->name);
@@ -115,7 +137,7 @@ unit_t *search_units_by(char what, char *needle, unit_t *u)
 			u_str = u->symbol;
 		}
 		else {
-			fprintf(stderr, "programer error! in search_units_by() in wam_unit.h");
+			fprintf(stderr, "programer error! in search_units_by() in unit.h");
 			exit(EXIT_FAILURE);
 		}
 
@@ -140,7 +162,7 @@ unit_t *search_units_by(char what, char *needle, unit_t *u)
 				p_len = prfx->symbol_len;
 			}
 			else {
-				fprintf(stderr, "programer error! in search_units_by() in wam_unit.h");
+				fprintf(stderr, "programer error! in search_units_by() in unit.h");
 				exit(EXIT_FAILURE);
 			}
 			
@@ -206,10 +228,10 @@ unit_t *search_for_unit(char *needle, unit_t *node)
 
 
 /* convert inval from inunit to outunit value */
-double convert_unit(double inval, unit_t *inunit, unit_t *outunit) 
+long double convert_unit(long double inval, unit_t *inunit, unit_t *outunit) 
 {
 
-	double conv_val;
+	long double conv_val;
 
 	/* DEBUG */
 	/*	
@@ -218,7 +240,9 @@ double convert_unit(double inval, unit_t *inunit, unit_t *outunit)
 	*/
 
 	if (inunit->quantity != outunit->quantity) {
-		fprintf(stderr, "Cannot convert, incompatable quantities\n");
+		fprintf(stderr, "Cannot convert, incompatable quantities %s and %s\n", 
+			QUANTITY_STR_LIST[inunit->quantity],
+			QUANTITY_STR_LIST[outunit->quantity]);
 		exit(EXIT_FAILURE);
 	}
 
@@ -233,27 +257,28 @@ double convert_unit(double inval, unit_t *inunit, unit_t *outunit)
 		}
 	}
 	/* if inunit common system is outunit system */
-	else if (inunit->csys == outunit->system) {
+	else if (inunit->cmp != NULL && inunit->cmp->system == outunit->system) {
 
 		//if (inunit->csuid != outunit->id)// TODO: insert check inunit->compare sys id to out unit id, and convert outunit to compatable unit
 		//	printf("!!! NOTE: unequal id's, inunit->common->id = %d, outunit->id = %d\n", inunit->csuid, outunit->id);
 
-		conv_val = inval * inunit->rtcsu / outunit->rtbu;
+		conv_val = inval * inunit->cmp->ratio / outunit->rtbu;
 	}
 
 	/* if inunit system is outunit common system*/
-	else if (inunit->system == outunit->csys) {
+	else if (outunit->cmp != NULL && inunit->system == outunit->cmp->system) {
 
 		//if (inunit->id != outunit->csuid)// TODO: insert check inunit->compare sys id to out unit id, and convert outunit to compatable unit
 		//	printf("!!! NOTE: unequal id's, inunit->id = %d, outunit->common->id = %d\n", inunit->id, outunit->csuid);
 
-		conv_val = inval / outunit->rtcsu * inunit->rtbu;
+		conv_val = inval / outunit->cmp->ratio * inunit->rtbu;
 	}
 	/* first convert to common system and then to outunit system. NOT TESTED !!!*/
-	else if (inunit->csys == outunit->csys) {
+	else if (inunit->cmp != NULL && outunit->cmp != NULL && 
+		 inunit->cmp->system == outunit->cmp->system) {
 
-		if (inunit->csuid == outunit->csuid) {
-			conv_val = inval * inunit->rtcsu / outunit->rtcsu;
+		if (inunit->cmp->id == outunit->cmp->id) {
+			conv_val = inval * inunit->cmp->ratio / outunit->cmp->ratio;
 		}
 		else{
 			fprintf(stderr, "ERROR! convert_unit() -> unequal compare system units\n");
@@ -288,4 +313,44 @@ void print_unit_list(unit_t *node)
 	}
 
 	printf("\n");
+}
+
+
+/* Create or append prefix linked list */
+prefix_t *ca_prefix_list(prefix_t **head, int list_len, int id[], char *name[], 
+			 char*symbol[], int factor[] )
+{
+	int i;
+	prefix_t *tail = NULL;
+	
+	for(i=0; i<list_len; i++){
+
+		prefix_t *node = xmalloc( sizeof(prefix_t) );	
+
+		node->id = id[i];
+
+		node->name_len = strlen(name[i]);
+		node->symbol_len = strlen(symbol[i]);
+
+		node->name = xmalloc( sizeof(char) * node->name_len );
+		node->symbol = xmalloc( sizeof(char) * node->symbol_len );
+
+		strcpy(node->name, name[i]);
+		strcpy(node->symbol, symbol[i]);
+		node->pow_factor = factor[i];
+
+		if ((*head) == NULL){
+			(*head) = node;
+			(*head)->next = NULL;
+		}
+		else{
+			node->next = (*head);
+			(*head) = node;
+		}
+
+		if (i == 0)
+			tail = node;
+	}
+	
+	return tail;	
 }

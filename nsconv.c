@@ -21,8 +21,9 @@
 #include <string.h>
 #include <math.h> /* for pow() */
 #include <chk_inval.h> /* for hex_prfx_chk() */
-#include "wam_unit.h"
+#include "unit.h"
 #include "global_def.h"
+#include "nsconv.h"
 
 
 const char DEC[] = "decimal";
@@ -31,11 +32,11 @@ const char OCT[] = "octal";
 const char HEX[] = "hexadecimal";
 
 //enum { BIN_ID, DEC_ID, OCT_ID, HEX_ID };
-int BIN_ID = 'b';
+/*int BIN_ID = 'b';
 int DEC_ID = 'd';
 int OCT_ID = 'o';
 int HEX_ID = 'h';
-
+*/
 
 
 /*
@@ -261,7 +262,7 @@ short *dec_to_binarr(int num, int *bit_width, int *hb1_pos)
  * Convert decimal number given as integer to a binary number 
  * represented as a string
  * */
-static char *dec_to_sbin(int num, int *width, char repr){
+char *dec_to_sbin(int num, int *width, char repr){
 
 	int i, hb1_pos;
 	short *bin_arr = dec_to_binarr(num, width, &hb1_pos);
@@ -354,6 +355,17 @@ char *soct_to_shex(const char *str_oct, char repr)
 }
 
 
+/* create number system unit and connect it to linked list */
+unit_t *nsunit(int id, int qnt, int sys, char *name, char *sym, unit_t **head)
+{
+	/* -1, -1 => no 'base unit' and no 'ratio to base unit' */
+	unit_t *u = mknode(id, qnt, sys, name, sym, -1, -1);
+	linkunit(head, u);
+
+	return u;
+}
+
+
 /* create number system units and return them as linked list*/
 unit_t *ns_list(unit_t **tail)
 {
@@ -363,17 +375,13 @@ unit_t *ns_list(unit_t **tail)
 
 	/* binary */
 	*tail =
-	nodeunit(BIN_ID, Q_NUMBER, NUMBER_SYS, "binary", "bin", DEC_ID, -1, -1,
-		 -1, -1, &head);
+	nsunit(BIN_ID, Q_NUMBER, NUMBER_SYS, "binary", "bin", &head);
 	/* octal */
-	nodeunit(OCT_ID, Q_NUMBER, NUMBER_SYS, "octal", "oct", DEC_ID, -1, -1,
-		 -1, -1, &head);
+	nsunit(OCT_ID, Q_NUMBER, NUMBER_SYS, "octal", "oct", &head);
 	/* decimal */
-	nodeunit(DEC_ID, Q_NUMBER, NUMBER_SYS, "decimal", "dec", DEC_ID, -1, -1,
-		 -1, -1, &head);
+	nsunit(DEC_ID, Q_NUMBER, NUMBER_SYS, "decimal", "dec", &head);
 	/* hexadecimal */
-	nodeunit(HEX_ID, Q_NUMBER, NUMBER_SYS, "hexadecimal", "hex", DEC_ID, -1,
-		 -1, -1, -1, &head);
+	nsunit(HEX_ID, Q_NUMBER, NUMBER_SYS, "hexadecimal", "hex", &head);
 
 
 	return head;

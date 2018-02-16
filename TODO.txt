@@ -4,6 +4,7 @@ Unit tests:
 
 Overall:
 ========
+* in unit tests -> print in the end numbers of failed tests
 * insert option -e [systems, [imperial, si...]..] which will print all systems and elements of systems
 * enable program to receive value from stdin (from pipe)
 * protect conversion functions from overflow when too large result is to be produced
@@ -96,4 +97,7 @@ Interface:
 		- conv 12.3 kelvin to celsius
 		- conv 13.02.2013 gregorian to muslim
 		- conv 20 EUR to DIN
+		- conv 485.454 lb to si with precision 8 
+		
+	* Enable in new interface method, input of connected values (e.g. 6 ft 10 in, or e.g. 2$ 75c).
 	

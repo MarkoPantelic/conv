@@ -1,0 +1,121 @@
+# excelent internet page for source of test result values
+# www.coolconversion.com/math/binary-octal-hexa-decimal
+
+# decimal input
+# -------------
+
+function unit_test_dtb 
+{
+	local val=( 11 16 20 33 );
+	local e_val=( "1011" "10000" "10100" "100001" );
+
+	test_multiple "dec to bin" dec bin 0 val[@] e_val[@]
+}
+
+
+function unit_test_dth 
+{	
+	local val=( 10 16 255 274 );
+	local e_val=( "A" "10" "FF" "112" );
+
+	test_multiple "dec to hex" dec hex 0 val[@] e_val[@]
+}
+
+
+function unit_test_dto 
+{
+	local val=( 9 17 20 67 );
+	local e_val=( 11 21 24 103 );
+
+	test_multiple "dec to oct" dec oct 0 val[@] e_val[@]
+}
+
+
+# octal input
+# -----------
+
+function unit_test_otb 
+{
+	local val=( 34 45 4517 66770 );
+	local e_val=( "11100" "100101" "100101001111" "110110111111000" );
+
+	test_multiple "oct to bin" oct bin 0 val[@] e_val[@]
+}
+
+
+function unit_test_otd 
+{
+	local val=( 34 45 4517 66770 );
+	local e_val=( 28 37 2383 28152 );
+
+	test_multiple "oct to dec" oct dec 0 val[@] e_val[@]
+}
+
+
+function unit_test_oth 
+{
+	local val=( 34 45 4517 66770 );
+	local e_val=( 1C 25 94F 6DF8 );
+
+	test_multiple "oct to hex" oct hex 0 val[@] e_val[@]
+}
+
+
+# hexadecimal input
+# -----------------
+
+function unit_test_htb 
+{
+	local val=( 34 56D8C 4ABC9 DFF14E );
+	local e_val=( "110100" "1010110110110001100" "1001010101111001001" "110111111111000101001110" );
+
+	test_multiple "hex to bin" hex bin 0 val[@] e_val[@]
+}
+
+
+function unit_test_htd 
+{
+	local val=( 34 56D8C 4ABC9 DFF14E );
+	local e_val=( 52 355724 306121 14676302 );
+
+	test_multiple "hex to dec" hex dec 0 val[@] e_val[@]
+}
+
+
+function unit_test_hto 
+{
+	local val=( 34 56D8C 4ABC9 DFF14E );
+	local e_val=( 64 1266614 1125711 67770516 );
+
+	test_multiple "hex to oct" hex oct 0 val[@] e_val[@]
+}
+
+
+# binary input
+# ------------
+
+function unit_test_btd 
+{
+	local val=( "1101" "1000101" "111011011" "100010011111011011" );
+	local e_val=( 13 69 475 141275 );
+
+	test_multiple "bin to dec" bin dec 0 val[@] e_val[@]
+}
+
+
+function unit_test_bto 
+{
+	local val=( "1101" "1000101" "111011011" "100010011111011011" );
+	local e_val=( 15 105 733 423733 );
+
+	test_multiple "bin to oct" bin oct 0 val[@] e_val[@]
+}
+
+
+function unit_test_bth 
+{
+	local val=( "1101" "1000101" "111011011" "100010011111011011" );
+	local e_val=( D 45 1DB 227DB );
+
+	test_multiple "bin to hex" bin hex 0 val[@] e_val[@]
+}
