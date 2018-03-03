@@ -375,13 +375,13 @@ unit_t *ns_list(unit_t **tail)
 
 	/* binary */
 	*tail =
-	nsunit(BIN_ID, Q_NUMBER, NUMBER_SYS, "binary", "bin", &head);
+	nsunit(BIN_ID, Q_NUMERAL, NUMERAL_SYS, "binary", "bin", &head);
 	/* octal */
-	nsunit(OCT_ID, Q_NUMBER, NUMBER_SYS, "octal", "oct", &head);
+	nsunit(OCT_ID, Q_NUMERAL, NUMERAL_SYS, "octal", "oct", &head);
 	/* decimal */
-	nsunit(DEC_ID, Q_NUMBER, NUMBER_SYS, "decimal", "dec", &head);
+	nsunit(DEC_ID, Q_NUMERAL, NUMERAL_SYS, "decimal", "dec", &head);
 	/* hexadecimal */
-	nsunit(HEX_ID, Q_NUMBER, NUMBER_SYS, "hexadecimal", "hex", &head);
+	nsunit(HEX_ID, Q_NUMERAL, NUMERAL_SYS, "hexadecimal", "hex", &head);
 
 
 	return head;

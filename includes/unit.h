@@ -31,6 +31,7 @@ typedef struct unit_t {
 	int quantity; 		/* quantity id for e.g. mass or length */
 	char *name; 		/* e.g. "inch" */
 	char *symbol; 		/* unit symbol e.g. "in" for inch */
+	int power;		/* for units e.g. m2 or m3 */
 	int sbuid; 		/* system base unit id e.g 3 for "foot" */
 	double rtbu; 		/* ratio of this unit to it's system base unit */
 	prefix_t *prefix_list;	/* pointer to prefix linked list */

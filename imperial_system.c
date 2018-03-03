@@ -14,20 +14,6 @@
 
 
 
-/* imperial compared to other */
-/* English units */     /* Imperial system mass units */  /* USA customary mass units */ 
-			/*
-			 * grain (gr) 1/7000              * #same#
-			 * dram (dr) 1/256                * #same#
-			 * ounce (oz) 1/16                * #same#
-			 * pound (lb) 1                   * #same#
-			 * stone (st) 14                  * #non existant#
-			 * long quarter (qr) 28           * short quarter (qr) 25
-			 * long hundredweight (cwt) 112   * short hunderdweight (cwt) 100
-			 * long ton (t) 2240              * short ton (t) 2000
-			 * slug (slug) ~ 32.17404856 lb   * #same#
-			 */
-
 
 enum {GRAIN_I_ID=1, DRAM_I_ID, OUNCE_I_ID, POUND_I_ID, STONE_I_ID, QUARTER_I_ID, 
       HWEIGHT_I_ID, TON_I_ID, SLUG_I_ID, THOU_I_ID, INCH_I_ID, FOOT_I_ID, 
@@ -144,21 +130,21 @@ unit_t *imperial_list(unit_t **tail){
 	 * ------------------------- */
 	/* fluid ounce */
 	nodeunit(FLUID_OZ_I_ID, Q_VOLUME, IMPERIAL_SYS, "fluid ounce",
-			"fl oz", OUNCE_I_ID, 1, 0.0284130625, LITER_ID, 
-			NON_SI_COMPAT, &head);
+			"fl oz", FLUID_OZ_I_ID, 1, 0.284130625, METER_CUBIC_SI_ID, 
+			SI_SYSTEM, &head);
 	/* gill */
-	nodeunit(GILL_I_ID, Q_VOLUME, IMPERIAL_SYS, "gill", "gi", OUNCE_I_ID,
-			5, 0.1420653125, LITER_ID, NON_SI_COMPAT, &head);
+	nodeunit(GILL_I_ID, Q_VOLUME, IMPERIAL_SYS, "gill", "gi", FLUID_OZ_I_ID,
+			5, 1.420653125, METER_CUBIC_SI_ID, SI_SYSTEM, &head);
 	/* pint */
-	nodeunit(PINT_I_ID, Q_VOLUME, IMPERIAL_SYS, "pint", "pt", OUNCE_I_ID,
-			20, 0.56826125, LITER_ID, NON_SI_COMPAT, &head);
+	nodeunit(PINT_I_ID, Q_VOLUME, IMPERIAL_SYS, "pint", "pt", FLUID_OZ_I_ID,
+			20, 5.6826125, METER_CUBIC_SI_ID, SI_SYSTEM, &head);
 	/* quart */
 	nodeunit(QUART_I_ID, Q_VOLUME, IMPERIAL_SYS, "quart", "qt", 
-			OUNCE_I_ID, 40, 1.1365225, LITER_ID, NON_SI_COMPAT, 
+			FLUID_OZ_I_ID, 40, 11.365225, METER_CUBIC_SI_ID, SI_SYSTEM, 
 			&head);
 	/* gallon */
 	nodeunit(GALLON_I_ID, Q_VOLUME, IMPERIAL_SYS, "gallon", "gal",
-			OUNCE_I_ID, 160, 4.54609, LITER_ID, NON_SI_COMPAT, 
+			FLUID_OZ_I_ID, 160, 45.4609, METER_CUBIC_SI_ID, SI_SYSTEM, 
 			&head);
 
 

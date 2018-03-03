@@ -4,14 +4,18 @@ Unit tests:
 
 Overall:
 ========
-* in unit tests -> print in the end numbers of failed tests
+* set stage so that imperial_system and us_customary_system can coexist together (they have many equaly named units)
+* in unit.c -> conversion calculation for units which have power (m2, m3, L...)
+* incorporate weights.c into the program
+* make chain conversion when different main unit is set in units definitions (e.g. FOOT_ID for one, INCH_ID for the other) 
+* in unit tests -> at the end of all tests, print numbers of failed tests
 * insert option -e [systems, [imperial, si...]..] which will print all systems and elements of systems
 * enable program to receive value from stdin (from pipe)
 * protect conversion functions from overflow when too large result is to be produced
 * add configuration file in /etc which should contain:
  	- currency table (updated from the internet on request)
 	- default unit_t system for interwoven systems ( imperial and us customary system for example)
-* add info messages when conversion has some quack to it (e.g. unit_t value is not exact or approximation)
+* add info messages when conversion has some quack to it (e.g. unit_t value is not exact ergo approximation)
 * add -s main option - to suppress info messages
 * do derived units of measurement conversion (e.g km/s to mi/h) 
 
@@ -28,7 +32,6 @@ Insert conversions:
 	
 * Measures and weights
 	- English units (e.g. bushel, nail, palm, bovate, hide, teaspoon, rundlet, pin, firkin, kenning...)
-	- Barrel to liter
 	- Roman system
 	- Greek system
 	- Italian ---> wiki: units_of_measurement (italian metrification table picture)

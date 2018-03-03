@@ -28,6 +28,7 @@ unit_t *mknode(int id, int qnt, int sys, char *name, char *sym, int sbuid,
 	u->symbol = xmalloc( sizeof(char) * (strlen(sym)+1) );
 	strcpy(u->symbol, sym);
 	
+	u->power = 1;
 	u->sbuid = sbuid;
 	u->rtbu = rtbu;
 
@@ -91,6 +92,7 @@ unit_t *prefixed_unit(unit_t *u, prefix_t *p)
 	o->quantity = u->quantity;
 	o->system = u->system;
 	o->sbuid = u->sbuid;
+	o->power = u->power;
 
 	/* point to original unit compare ratio struct */
 	o->cmp = u->cmp;
@@ -108,6 +110,7 @@ unit_t *prefixed_unit(unit_t *u, prefix_t *p)
 	o->id = u->id * p->id;
  	
 	o->rtbu = pow(10, p->pow_factor);
+	//o->rtbu = u->rtbu;
 
 	return o;
 }
@@ -142,7 +145,7 @@ unit_t *search_units_by(char what, char *needle, unit_t *u)
 		}
 
 		// DEBUG
-		//printf("unit = %s\n", u->name);
+		//printf("unit = %s, it's power = %d\n", u->name, u->power);
  
 		if(strcmp(needle, u_str) == 0)
 			return u;
@@ -232,7 +235,6 @@ long double convert_unit(long double inval, unit_t *inunit, unit_t *outunit)
 {
 
 	long double conv_val;
-
 	/* DEBUG */
 	/*	
 	printf("convert_unit() passed val = %f\n", inval);
@@ -240,7 +242,7 @@ long double convert_unit(long double inval, unit_t *inunit, unit_t *outunit)
 	*/
 
 	if (inunit->quantity != outunit->quantity) {
-		fprintf(stderr, "Cannot convert, incompatable quantities %s and %s\n", 
+		fprintf(stderr, "Cannot convert, incompatable quantities '%s' and '%s'\n", 
 			QUANTITY_STR_LIST[inunit->quantity],
 			QUANTITY_STR_LIST[outunit->quantity]);
 		exit(EXIT_FAILURE);
@@ -248,8 +250,11 @@ long double convert_unit(long double inval, unit_t *inunit, unit_t *outunit)
 
 	if (inunit->system == outunit->system) {
 
-		if (inunit->sbuid == outunit->sbuid)
-			conv_val = inval * inunit->rtbu / outunit->rtbu;
+		if (inunit->sbuid == outunit->sbuid){
+			//conv_val = inval * inunit->rtbu / outunit->rtbu;
+			conv_val = inval * pow(inunit->rtbu, inunit->power) / pow(outunit->rtbu, outunit->power);
+
+		}
 		else{
 			fprintf(stderr, "ERROR! convert_unit() -> unequal system base " \
 				"unit_t id for inunit and outunit\n");
@@ -258,27 +263,33 @@ long double convert_unit(long double inval, unit_t *inunit, unit_t *outunit)
 	}
 	/* if inunit common system is outunit system */
 	else if (inunit->cmp != NULL && inunit->cmp->system == outunit->system) {
-
+		//printf("inunit->cmp->system == outunit->system \n");
+		//printf("inunit->power = %d, outunit->power = %d\n", inunit->power, outunit->power);
 		//if (inunit->csuid != outunit->id)// TODO: insert check inunit->compare sys id to out unit id, and convert outunit to compatable unit
 		//	printf("!!! NOTE: unequal id's, inunit->common->id = %d, outunit->id = %d\n", inunit->csuid, outunit->id);
 
 		conv_val = inval * inunit->cmp->ratio / outunit->rtbu;
+		//conv_val = inval * inunit->cmp->ratio * pow(inunit->rtbu, inunit->power) / pow(outunit->rtbu, outunit->power);
 	}
 
 	/* if inunit system is outunit common system*/
 	else if (outunit->cmp != NULL && inunit->system == outunit->cmp->system) {
 
-		//if (inunit->id != outunit->csuid)// TODO: insert check inunit->compare sys id to out unit id, and convert outunit to compatable unit
-		//	printf("!!! NOTE: unequal id's, inunit->id = %d, outunit->common->id = %d\n", inunit->id, outunit->csuid);
+		//printf("inunit->cmp->system == outunit->system \n");
+		//printf("inunit->power = %d, outunit->power = %d\n", inunit->power, outunit->power);
+		//printf("inunit->rtbu = %f, outunit->cmp->ratio = %f\n", inunit->rtbu, outunit->cmp->ratio);
 
 		conv_val = inval / outunit->cmp->ratio * inunit->rtbu;
+		//conv_val = inval * inunit->rtbu / outunit->cmp->ratio;
+		//conv_val = inval * pow(inunit->rtbu, inunit->power)  / pow(outunit->rtbu, outunit->power) / outunit->cmp->ratio;
 	}
-	/* first convert to common system and then to outunit system. NOT TESTED !!!*/
+	/* first convert to common system and then to outunit system. */
 	else if (inunit->cmp != NULL && outunit->cmp != NULL && 
 		 inunit->cmp->system == outunit->cmp->system) {
+		
 
 		if (inunit->cmp->id == outunit->cmp->id) {
-			conv_val = inval * inunit->cmp->ratio / outunit->cmp->ratio;
+			conv_val = inval * inunit->cmp->ratio / outunit->cmp->ratio / outunit->rtbu;
 		}
 		else{
 			fprintf(stderr, "ERROR! convert_unit() -> unequal compare system units\n");

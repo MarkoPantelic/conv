@@ -7,9 +7,10 @@
 /* define system id's */
 #define IMPERIAL_SYS 1
 #define SI_SYSTEM 2
-#define NUMBER_SYS 3
+#define NUMERAL_SYS 3
 #define TEMPERATURE 4
 #define NON_SI_COMPAT 5
+#define US_SYS 6
 
 /* define quantity id's */
 #define Q_MASS 1
@@ -19,7 +20,7 @@
 #define Q_SUBSTANCE_A 5
 #define Q_AREA 6
 #define Q_VOLUME 7
-#define Q_NUMBER 8
+#define Q_NUMERAL 8
 #define Q_TEMPERATURE 9
 #define Q_LUMINOUS_I 10
 

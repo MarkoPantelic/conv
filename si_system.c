@@ -80,7 +80,7 @@ unit_t *si_system_list(unit_t **tail, prefix_t *prfx_lst)
 
 
 	/* set 7 SI base units */
-	/* -------------- */
+	/* ------------------- */
 
 	/* meter */
 	*tail =
@@ -110,6 +110,23 @@ unit_t *si_system_list(unit_t **tail, prefix_t *prfx_lst)
 	/* candela */
 	si_node(CANDELA_SI_ID, Q_LUMINOUS_I, SI_SYSTEM, "candela", "cd", CANDELA_SI_ID,
 		1, prfx_lst, &head);
+
+
+
+
+	/* set SI derived units */
+	/* -------------------- */
+
+	/* meter square */
+	si_node(METER_SQUARE_SI_ID, Q_AREA, SI_SYSTEM, "meter square", "m2", METER_SQUARE_SI_ID,
+		1, prfx_lst, &head);
+	head->power = 2;
+
+	/* cubic meter */
+	si_node(METER_CUBIC_SI_ID, Q_VOLUME, SI_SYSTEM, "meter cubic", "m3", METER_CUBIC_SI_ID,
+		1, prfx_lst, &head);
+	head->power = 3;
+
 
 	return head;
 }

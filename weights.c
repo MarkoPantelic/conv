@@ -16,6 +16,7 @@ const char OUNCE[] = "ounce";
 const char GRAM[] = "gram";
 
 /* TODO: create unit lists for all weights systems */
+/* Unit lists should be complete (with pound and other units) */
 /* Change 'weight' terminology to 'mass'?? */
 
 

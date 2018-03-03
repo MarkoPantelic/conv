@@ -101,13 +101,11 @@ void callconvf(unit_t *inunit, unit_t *outunit, char *val, char *precision, int 
 	char hex_repr = 'U';
 	char bin_repr = 'f';
 		
-
-	/* call for imperial units */
 	
 	switch(inunit->system){
 
 		
-		case NUMBER_SYS:
+		case NUMERAL_SYS:
 
 
 			switch(inunit->id){
@@ -182,7 +180,7 @@ void callconvf(unit_t *inunit, unit_t *outunit, char *val, char *precision, int 
 			}
 
 			break;
-		/* end case NUMBER_SYS */
+		/* end case NUMERAL_SYS */
 
 		case TEMPERATURE:
 			
@@ -238,6 +236,7 @@ void callconvf(unit_t *inunit, unit_t *outunit, char *val, char *precision, int 
 		case SI_SYSTEM:
 		case NON_SI_COMPAT:
 		case IMPERIAL_SYS:
+		case US_SYS:
 
 			if(1){
 				double cnvval = convert_unit(atof(val), inunit, outunit); ptr_cval = &cnvval; type_flag = 'f'; suffix = outunit->symbol;	
@@ -290,7 +289,7 @@ int chk_val(char *val, int unit_system, int unit_id)
 {
 	switch(unit_system){
 
-		case NUMBER_SYS:
+		case NUMERAL_SYS:
 
 			switch(unit_id){
 
@@ -308,13 +307,14 @@ int chk_val(char *val, int unit_system, int unit_id)
 		case SI_SYSTEM:
 		case NON_SI_COMPAT:
 		case TEMPERATURE:
+		case US_SYS:
 			return chksfloat(val);
 		default:
 			fprintf(stderr, "assert switch-case: case unit->system_id '%d' not found in chk_val()", unit_system);
 			exit(EXIT_FAILURE);
 	}
 
-	fprintf(stderr, "assert switch-case: case unit->id '%d' not found in chk_val()", unit_id);
+	fprintf(stderr, "assert switch-case: case unit->id '%d' not found in callconvf->chk_val()", unit_id);
 	exit(EXIT_FAILURE);
 }
 

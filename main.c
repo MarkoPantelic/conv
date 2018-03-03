@@ -13,7 +13,9 @@
 #include "callconvf.h"
 #include "unit.h"
 #include "imperial_system.h"
+#include "us_customary_system.h"
 #include "si_system.h"
+#include "non_si_compat.h"
 #include "nsconv.h"
 #include "tempconv.h"
 
@@ -65,7 +67,8 @@ int main(int argc, char* argv[])
 	prefix_t *si_prfxlst = si_prefix_list();
 
 	/* list of all units (connect linked lists) */
-	list_head = imperial_list(&list_tail);
+	//list_head = imperial_list(&list_tail);
+	list_head = us_units_list(&list_tail);
 	list_tail->next = ns_list(&list_tail);
 	list_tail->next = temperature_list(&list_tail);
 	list_tail->next = si_system_list(&list_tail, si_prfxlst);
