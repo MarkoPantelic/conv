@@ -1,6 +1,6 @@
 /*=========================================
-	h file for nsconv.c module 
-	Numeral system conversions	
+	h file for nsconv.c module
+	Numeral system conversions
 ===========================================*/
 
 #ifndef _NS_CONV_H
@@ -39,6 +39,7 @@ int soct_to_dec(const char *str_oct);
 char *soct_to_sbin(const char *str_oct, char repr);
 char *soct_to_shex(const char *str_oct, char repr);
 
+char *shex_to_srgb(char *str_hex);
+char *srgb_to_shex(char *str_rgb);
+
 #endif /* define _NS_CONV_H */
-
-
