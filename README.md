@@ -1,6 +1,6 @@
 
 # conv 
-General purpose converter
+General purpose converter (numeral systems, weights and measures etc.)
 
 
 
