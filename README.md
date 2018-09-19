@@ -49,17 +49,17 @@ options:
 ## Install:
 
 Necessary prerequisites:
-	* gcc compiler
-	* make
+* gcc compiler
+* make
 
 
 To install from source run:
-	1. make
-	1. make install
+1. make
+1. make install
 
 
 To uninstall run:
-	1. make uninstall
+1. make uninstall
 	
 	
 	
