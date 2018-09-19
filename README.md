@@ -68,7 +68,7 @@ make uninstall
 
 
 ## Examples:
-##### Get list of all conversions
+##### Get a list of all conversions
 ```
 [user@machine]$ ./conv --printlist
  system          quantity                                  unit symbol
