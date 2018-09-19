@@ -1,5 +1,5 @@
 
-conv 
+# conv 
 General purpose converter
 ===
 
@@ -54,12 +54,12 @@ Necessary prerequisites:
 
 
 To install from source run:
-1. make
-1. make install
+	make
+	make install
 
 
 To uninstall run:
-1. make uninstall
+	make uninstall
 	
 	
 	
