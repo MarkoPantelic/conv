@@ -59,6 +59,7 @@ options:
 make
 make install
 ```
+To change location of executable after installation (currently set to conv's source dir) set INSTALL_DIR variable in Makefile to desired install path.
 
 ##### To uninstall run:
 ```
