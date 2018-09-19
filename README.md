@@ -65,9 +65,35 @@ To change location of executable after installation (currently set to conv's sou
 ```
 make uninstall
 ```
-	
-	
-	
+
+
+## Examples:
+Get list of all conversions
+```
+[user@machine]$ ./conv --printlist
+ system          quantity                                  unit symbol
+==============================================================================
+ US customary    volume                                hogshead (hogshead)
+ US customary    volume                              oil barrel (oil bbl)
+ US customary    volume                                  barrel (bbl)
+ US customary    volume                                  gallon (gal)
+ US customary    volume                                   quart (qt)
+...
+```
+
+Convert 30 degrees Celsius to Kelvin
+```
+[user@machine]$ ./conv -i C -o K -n 30
+303.15
+```
+Convert decimal number 1234 to binary
+```
+[user@machine]$ ./conv -i dec -o bin -n 1234
+10011010010
+```
+
+
+
 ### Author:
 
 Марко Пантелић (Marko Pantelić)
