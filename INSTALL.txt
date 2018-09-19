@@ -1,12 +1,12 @@
 Necessary prerequisites:
-* gcc compiler
-* make
-* standard C library
+	* gcc compiler
+	* make
+
 
 To install from source run:
-
 	make
 	make install
+
 
 To uninstall run:
 	make uninstall
