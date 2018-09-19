@@ -11,10 +11,12 @@ Conv converts input value to desired output value
 Usage: conv [OPTION]... -i input_type -o desired_output_type [VALUE]
 
 options:
+```
 -h	 --help
 -l	 --printlist
 -p	 --precision
 -v	 --verbose
+```
 
 
 
@@ -48,20 +50,20 @@ options:
 
 ## Install:
 
-Necessary prerequisites:
+##### Necessary prerequisites:
 * gcc compiler
 * make
 
-
-To install from source run:
+##### To install from source run:
 ```
 make
 make install
 ```
 
-
-To uninstall run:
-`make uninstall`
+##### To uninstall run:
+```
+make uninstall
+```
 	
 	
 	
