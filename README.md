@@ -4,7 +4,7 @@ General purpose converter (numeral systems, weights and measures etc.)
 
 
 
-## About:
+### About:
 
 Conv converts input value to desired output value
 
@@ -68,7 +68,7 @@ make uninstall
 	
 	
 	
-## Author:
+### Author:
 
         Марко Пантелић (Marko Pantelić)
         marko_pantelic@mail.com
