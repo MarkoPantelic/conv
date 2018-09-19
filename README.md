@@ -1,7 +1,7 @@
 
 # conv 
 General purpose converter
-===
+
 
 
 ## About:
@@ -11,10 +11,10 @@ Conv converts input value to desired output value
 Usage: conv [OPTION]... -i input_type -o desired_output_type [VALUE]
 
 options:
-* -h	 --help
-* -l	 --printlist
-* -p	 --precision
-* -v	 --verbose
+-h	 --help
+-l	 --printlist
+-p	 --precision
+-v	 --verbose
 
 
 
