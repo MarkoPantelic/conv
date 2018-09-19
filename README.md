@@ -70,7 +70,7 @@ make uninstall
 	
 ### Author:
 
-        Марко Пантелић (Marko Pantelić)
-        marko_pantelic@mail.com
+Марко Пантелић (Marko Pantelić)
+marko_pantelic@mail.com
 
 	
