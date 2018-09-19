@@ -23,7 +23,7 @@ options:
 ## Supported conversions:
 
 
-	Number systems:
+	Numeral systems:
 	---------------
 
 	* Binary
@@ -35,8 +35,9 @@ options:
 	Systems of units of measurement:
 	--------------------------------
 
-	* Imperial system
+	* Imperial system (currently disabled - debugging)
 	* SI system
+	* US customary
 
 	
 	Temperature:
