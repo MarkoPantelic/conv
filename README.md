@@ -35,7 +35,6 @@ options:
 	Systems of units of measurement:
 	--------------------------------
 
-	* Imperial system (currently disabled - debugging)
 	* SI system
 	* US customary
 
