@@ -54,8 +54,10 @@ Necessary prerequisites:
 
 
 To install from source run:
-`make
- make install`
+```
+make
+make install
+```
 
 
 To uninstall run:
