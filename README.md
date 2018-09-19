@@ -1,8 +1,8 @@
 
 conv 
+General purpose converter
 ===
-## General purpose converter
----
+
 
 ## About:
 
@@ -15,6 +15,7 @@ options:
 	* -l	 --printlist
 	* -p	 --precision
 	* -v	 --verbose
+
 
 
 ## Supported conversions:
@@ -44,6 +45,7 @@ options:
 	* Fahrenheit
 	
 
+
 ## Install:
 
 Necessary prerequisites:
@@ -58,6 +60,7 @@ To install from source run:
 
 To uninstall run:
 	1. make uninstall
+	
 	
 	
 ## Author:
